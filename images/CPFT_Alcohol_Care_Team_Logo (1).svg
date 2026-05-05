@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" role="img" aria-label="CPFT Alcohol Care Team — Cambridgeshire and Peterborough NHS Foundation Trust">
+  <title>CPFT Alcohol Care Team</title>
+  <desc>Cambridgeshire and Peterborough NHS Foundation Trust Alcohol Care Team identity.</desc>
+  <g>
+    <text x="0" y="74" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="84" letter-spacing="1" fill="#21206A">CPFT</text>
+    <g transform="translate(225, 22) rotate(15)">
+      <line x1="0" y1="-15" x2="0" y2="15" stroke="#21206A" stroke-width="6" stroke-linecap="round"/>
+      <line x1="-13" y1="-7" x2="13" y2="7" stroke="#21206A" stroke-width="6" stroke-linecap="round"/>
+      <line x1="-13" y1="7" x2="13" y2="-7" stroke="#21206A" stroke-width="6" stroke-linecap="round"/>
+    </g>
+  </g>
+  <line x1="265" y1="20" x2="265" y2="120" stroke="#2D005B" stroke-width="2"/>
+  <text x="285" y="40" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="15" fill="#1c1c1c">Cambridgeshire and Peterborough</text>
+  <text x="285" y="60" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="15" fill="#1c1c1c">NHS Foundation Trust</text>
+  <text x="285" y="105" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="32" fill="#21206A">Alcohol Care Team</text>
+</svg>
