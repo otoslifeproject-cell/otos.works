@@ -1053,410 +1053,359 @@ td strong { color: var(--paper-ink); }
 }
 
 /* ============================================================
-   OTOS Continuity™ — Cinematic Hero System Patch
-   Added as part of the design system. CSS only. No HTML/JS changes.
-   Purpose:
-   - full-width dramatic heroes using existing prepared images
-   - dark-left text overlay treatment across homepage + partner pages
-   - larger logo mark in nav without breaking navigation
-   - more confident image sizing for on-page visuals
-   - optional hero/stat polish using existing stat-card markup
+   OTOS Continuity™ — cinematic hero system patch
+   Purpose: full-width Jump-style fixed image heroes using existing markup.
+   Scope: CSS only. No HTML/JS required.
+   Notes: keeps the original hero typography scale; does not enlarge the
+   overlay text. Images are darkened on the left for prepared text overlays.
    ============================================================ */
 
-:root {
-  --hero-min: 78vh;
-  --hero-min-partner: 74vh;
-  --hero-pad-x: 48px;
-  --hero-overlay-left: rgba(8,10,15,.92);
-  --hero-overlay-mid: rgba(8,10,15,.58);
-  --hero-overlay-right: rgba(8,10,15,.12);
-}
-
-/* ── Navigation logo: larger, clearer, still compact ───────── */
-.nav-shell {
-  min-height: 64px;
-  height: auto;
-  padding: 0 10px 0 22px;
+/* Better logo balance without changing nav layout */
+.brand-icon {
+  width: 30px;
+  height: 24px;
 }
 .brand {
-  gap: 11px;
   font-size: 16px;
-  letter-spacing: -.035em;
-}
-.brand-icon {
-  width: 34px;
-  height: 26px;
-  background-size: contain;
-  filter: drop-shadow(0 0 14px rgba(242,108,13,.46));
 }
 
-/* ── Generic hero: keep existing structure, make it feel like a stage ── */
+/* ── HOME HERO: make the existing image card act as the full hero stage ── */
 .hero {
-  position: relative;
-  overflow: hidden;
-  padding: calc(var(--nav-h) + 34px) 0 58px;
-  background:
-    radial-gradient(circle at 80% 22%, rgba(242,108,13,.13), transparent 34rem),
-    linear-gradient(180deg, #080a0f 0%, #0d1118 100%);
+  padding: 0 !important;
+  background: var(--bg) !important;
   color: var(--ink);
+  overflow: hidden;
 }
+
 .hero > .container {
-  position: relative;
-  z-index: 2;
-}
-.hero h1 {
-  text-wrap: balance;
-}
-.hero .lede {
-  max-width: 720px;
-}
-
-/* ── Homepage hero image card becomes the full dramatic stage ── */
-.hero .hero-image-card {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  border-radius: 0;
-  border: 0;
-  box-shadow: none;
-  min-height: var(--hero-min) !important;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-.hero .hero-image-card img {
-  position: absolute !important;
-  inset: 0 !important;
   width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center center !important;
-  transform: scale(1.01);
-}
-.hero .hero-image-card-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg,
-      var(--hero-overlay-left) 0%,
-      rgba(8,10,15,.82) 26%,
-      var(--hero-overlay-mid) 54%,
-      var(--hero-overlay-right) 100%),
-    linear-gradient(180deg,
-      rgba(8,10,15,.36) 0%,
-      rgba(8,10,15,.10) 42%,
-      rgba(8,10,15,.62) 100%);
-  z-index: 1;
-}
-.hero .hero-image-card-content {
-  position: relative;
-  inset: auto;
-  z-index: 2;
-  width: min(var(--max), calc(100% - 56px));
-  max-width: none;
-  margin: 0 auto;
-  padding: calc(var(--nav-h) + 40px) 0 72px;
-  justify-content: center;
-  min-height: var(--hero-min);
-}
-.hero .hero-image-card-content h1 {
-  max-width: 840px;
-  font-size: clamp(44px, 7.2vw, 108px);
-  line-height: .89;
-  letter-spacing: -.075em;
-  color: #fff;
-  text-shadow: 0 18px 60px rgba(0,0,0,.45);
-}
-.hero .hero-image-card-content .lede {
-  max-width: 720px;
-  font-size: clamp(17px, 1.45vw, 23px);
-  line-height: 1.48;
-  color: rgba(251,247,238,.78);
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* ── Hero stats: keep in hero, make them secondary not a competing block ── */
-.hero .cards:has(.stat-card) {
-  width: 100%;
-  margin-top: 22px;
-  gap: 10px;
-}
-.hero .stat-card {
-  min-height: 132px;
-  padding: 18px 16px;
-  background: linear-gradient(180deg, rgba(18,26,38,.68), rgba(10,14,22,.52));
-  border-color: rgba(255,255,255,.10);
-  box-shadow: 0 14px 44px rgba(0,0,0,.18);
-}
-.hero .stat-card .stat {
-  font-size: clamp(24px, 2.4vw, 38px);
-  margin-bottom: 8px;
-  line-height: .95;
-}
-.hero .stat-card p {
-  font-size: 12px;
-  line-height: 1.45;
-  color: rgba(251,247,238,.62);
-}
-.hero .stat-card strong {
-  display: block;
-  margin-top: 4px;
-  color: rgba(251,247,238,.82);
-  font-size: 11px;
-}
-
-/* Optional kinetic feel for existing stat text. CSS-only; no fake live data. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero .stat-card:nth-child(odd) .stat {
-    animation: otosStatLift 5.8s cubic-bezier(.2,.75,.15,1) infinite;
-  }
-  .hero .stat-card:nth-child(even) .stat {
-    animation: otosStatDrop 6.4s cubic-bezier(.2,.75,.15,1) infinite;
-  }
-}
-@keyframes otosStatLift {
-  0%, 74%, 100% { transform: translateY(0); opacity: 1; }
-  82% { transform: translateY(-5px); opacity: .92; }
-}
-@keyframes otosStatDrop {
-  0%, 70%, 100% { transform: translateY(0); opacity: 1; }
-  80% { transform: translateY(5px); opacity: .92; }
-}
-
-/* ── Partner heroes: convert existing image-column markup to full-bleed hero ── */
-.partner-hero {
-  position: relative;
+.hero-image-card {
+  width: 100vw !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   overflow: hidden;
-  min-height: var(--hero-min-partner);
-  display: flex;
-  align-items: center;
-  padding: calc(var(--nav-h) + 42px) 0 72px;
-  background: #080a0f;
+  background-size: cover;
+  background-position: 60% 35%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   isolation: isolate;
 }
-.partner-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(90deg,
-      rgba(8,10,15,.94) 0%,
-      rgba(8,10,15,.82) 28%,
-      rgba(8,10,15,.50) 58%,
-      rgba(8,10,15,.14) 100%),
-    linear-gradient(180deg,
-      rgba(8,10,15,.26) 0%,
-      rgba(8,10,15,.08) 45%,
-      rgba(8,10,15,.62) 100%);
+
+/* Use the existing image as a CSS background so it can stay still on scroll. */
+.hero-image-card:has(img[src*="02-chaos-tunnel"]) {
+  background-image: url('../images/02-chaos-tunnel.png');
+}
+.hero-image-card:has(img[src*="01-hero-waiting-corridor"]) {
+  background-image: url('../images/01-hero-waiting-corridor.png');
+}
+.hero-image-card:has(img[src*="many_doors_rainbow"]) {
+  background-image: url('../images/many_doors_rainbow.png');
+  background-position: 58% center;
+}
+
+.hero-image-card > img {
+  opacity: 0 !important;
   pointer-events: none;
 }
-.partner-hero .container {
-  position: relative;
+
+.hero-image-card-overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.92) 0%,
+      rgba(0,0,0,.86) 22%,
+      rgba(0,0,0,.62) 46%,
+      rgba(0,0,0,.26) 72%,
+      rgba(0,0,0,.08) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.36) 0%,
+      rgba(0,0,0,.08) 35%,
+      rgba(0,0,0,.42) 100%
+    ) !important;
+  z-index: 1;
+}
+
+.hero-image-card-content {
+  inset: 0 !important;
+  width: min(var(--max), calc(100% - 48px)) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: calc(var(--nav-h) + 88px) 0 72px !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
   z-index: 2;
 }
-.partner-hero-inner {
-  display: block;
-  min-height: calc(var(--hero-min-partner) - var(--nav-h));
+
+/* IMPORTANT: restore/keep the original text scale. Do not enlarge hero type. */
+.hero-image-card-content h1 {
+  max-width: 780px;
+  font-size: clamp(38px, 4.8vw, 68px) !important;
+  line-height: .96 !important;
+  letter-spacing: -.055em !important;
+  text-wrap: balance;
 }
-.partner-hero-copy {
-  position: relative;
-  z-index: 3;
-  max-width: 840px;
-  padding: 42px 0 24px;
+
+/* Keep “addiction steps in.” on one line on desktop when used as a span. */
+.hero-image-card-content h1 .accent {
+  white-space: nowrap;
 }
-.partner-hero h1 {
-  max-width: 880px;
-  font-size: clamp(38px, 5.8vw, 86px);
-  line-height: .92;
-  letter-spacing: -.07em;
-  color: #fff;
-  text-shadow: 0 18px 60px rgba(0,0,0,.46);
-}
-.partner-hero p.lede {
+
+.hero-image-card-content .lede {
   max-width: 720px;
-  font-size: clamp(16px, 1.35vw, 22px);
-  line-height: 1.52;
-  color: rgba(251,247,238,.78);
+  font-size: 18px !important;
+  line-height: 1.7 !important;
+  color: rgba(251,247,238,.78) !important;
 }
-.partner-hero-image {
+
+.hero-image-card-content,
+.hero-image-card-content .kicker,
+.hero-image-card-content h1,
+.hero-image-card-content .lede,
+.hero-image-card-content .hero-actions {
+  animation: otosHeroReveal .72s cubic-bezier(.2,.75,.15,1) both;
+}
+.hero-image-card-content h1 { animation-delay: .06s; }
+.hero-image-card-content .lede { animation-delay: .14s; }
+.hero-image-card-content .hero-actions { animation-delay: .22s; }
+
+@keyframes otosHeroReveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hide homepage elements that are accidentally inside the hero after the card.
+   This preserves the clean Jump-style hero entry and avoids distracting below-hero
+   stats inside the opening view. Remove this rule only if the HTML is later fixed. */
+.hero > .container > .cards,
+.hero > .container > .cards + p,
+.hero > .container > .cards + p + .cta-row {
+  display: none !important;
+}
+
+/* ── PARTNER HEROES: convert the existing image-column hero into a cinematic stage ── */
+.partner-hero {
+  position: relative;
+  min-height: 76vh;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 62% center;
+  background-attachment: fixed;
+  color: var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.partner-hero::before {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: none;
-  aspect-ratio: auto;
-  pointer-events: none;
-}
-.partner-hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  transform: scale(1.015);
-  opacity: .9;
-}
-.partner-hero-copy .partner-logo,
-.partner-hero-copy img[style*="height"] {
-  box-shadow: 0 10px 34px rgba(0,0,0,.18);
-}
-.partner-hero .hero-actions {
-  margin-top: 30px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.92) 0%,
+      rgba(0,0,0,.86) 24%,
+      rgba(0,0,0,.62) 49%,
+      rgba(0,0,0,.25) 74%,
+      rgba(0,0,0,.08) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28) 0%,
+      rgba(0,0,0,.06) 42%,
+      rgba(0,0,0,.36) 100%
+    );
 }
 
-/* ── Page-specific hero identity tints, still one system ───────── */
-body:has(.partner-hero) .partner-hero::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 8px;
-  z-index: 4;
-  background: var(--orange);
-  opacity: .95;
-}
-body:has(title:not(:empty)) .partner-hero {}
-
-/* ── Larger, more confident on-page images ───────────────── */
-.image-contained,
-.image-thumbnail,
-.image-banner {
-  box-shadow: var(--shadow-lg);
-}
-.image-contained {
-  border-radius: var(--radius-lg);
-}
-.image-banner {
-  min-height: clamp(430px, 48vw, 620px);
-  width: 100%;
-}
-.image-banner-content {
-  padding: clamp(28px, 4vw, 56px);
-  max-width: 680px;
-}
-.split .image-contained,
-.split-wide .image-contained,
-.split-narrow .image-contained {
-  min-height: 360px;
-}
-.split .image-contained img,
-.split-wide .image-contained img,
-.split-narrow .image-contained img {
-  height: 100%;
-  min-height: 360px;
+.partner-hero .container {
+  position: relative;
+  z-index: 1;
+  width: min(var(--max), calc(100% - 48px));
+  padding: calc(var(--nav-h) + 64px) 0 72px;
 }
 
-/* Remove overlay-heavy feeling when images already carry text. */
-.image-banner.no-overlay::after,
-.image-contained.no-overlay::after {
-  display: none;
+.partner-hero-inner {
+  display: block !important;
+  max-width: 800px;
 }
 
-/* ── Density tuning: premium but less padded and less lonely ───── */
-.paper-section,
-.dark-section {
-  padding: 68px 0;
-}
-.brown-section {
-  padding: 58px 0;
-}
-.section-head {
-  margin-bottom: 34px;
-}
-.split,
-.split-wide,
-.split-narrow {
-  gap: clamp(28px, 4vw, 58px);
+.partner-hero-copy {
+  max-width: 800px;
+  animation: otosHeroReveal .72s cubic-bezier(.2,.75,.15,1) both;
 }
 
-/* ── Responsive cinematic treatment ─────────────────────── */
-@media (max-width: 1100px) {
-  :root {
-    --hero-min: 72vh;
-    --hero-min-partner: 68vh;
-  }
-  .hero .cards:has(.stat-card) {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
+.partner-hero-copy .partner-logo {
+  max-width: 220px;
+  height: 48px;
+  margin-bottom: 22px;
 }
 
-@media (max-width: 860px) {
-  .partner-hero-inner {
-    min-height: auto;
-  }
-  .partner-hero-image {
-    display: block;
-  }
-  .partner-hero-copy {
-    max-width: 100%;
-    padding: 46px 0 12px;
-  }
+.partner-hero h1 {
+  max-width: 780px;
+  font-size: clamp(30px, 3.8vw, 52px) !important;
+  line-height: .98 !important;
+  letter-spacing: -.055em !important;
+  margin-bottom: 18px;
+  text-wrap: balance;
+}
+
+.partner-hero p.lede {
+  max-width: 760px;
+  font-size: 17px !important;
+  line-height: 1.7 !important;
+  color: rgba(251,247,238,.76) !important;
+}
+
+.partner-hero-image {
+  display: none !important;
+}
+
+/* Known partner-page hero backgrounds using the existing image references. */
+.partner-hero:has(img[src*="06-close-nurse-bedside"]) {
+  background-image: url('../images/06-close-nurse-bedside.png');
+  background-position: 63% center;
+}
+.partner-hero:has(img[src*="cgl_keyworker_office"]) {
+  background-image: url('../images/cgl_keyworker_office.png');
+  background-position: 62% center;
+}
+.partner-hero:has(img[src*="nhs-waiting-room"]) {
+  background-image: url('../images/nhs-waiting-room.jpg');
+  background-position: 62% center;
+}
+.partner-hero:has(img[src*="nhs-community-hub"]) {
+  background-image: url('../images/nhs-community-hub.jpg');
+  background-position: 62% center;
+}
+.partner-hero:has(img[src*="crs-community-hub"]) {
+  background-image: url('../images/crs-community-hub.jpg');
+  background-position: 62% center;
+}
+.partner-hero:has(img[src*="woman_showing_otos"]) {
+  background-image: url('../images/woman_showing_otos.png');
+  background-position: 62% center;
+}
+.partner-hero:has(img[src*="Therapist_reviewing_OTOS"]) {
+  background-image: url('../images/Therapist_reviewing_OTOS.png');
+  background-position: 62% center;
+}
+.partner-hero:has(img[src*="partner-pathway"]) {
+  background-image: url('../images/partner-pathway.png');
+  background-position: 67% center;
+}
+.partner-hero:has(img[src*="many_doors_rainbow"]) {
+  background-image: url('../images/many_doors_rainbow.png');
+  background-position: 62% center;
+}
+.partner-hero:has(img[src*="Continuity_in_everyday_settings"]),
+.partner-hero:has(img[src*="continuity-in-everyday-settings"]) {
+  background-image: url('../images/Continuity_in_everyday_settings.png');
+  background-position: 62% center;
+}
+
+/* If a page hero has no recognised image, keep a premium dark fallback. */
+.partner-hero:not(:has(.partner-hero-image img)) {
+  background:
+    radial-gradient(circle at 78% 24%, rgba(242,108,13,.20), transparent 30rem),
+    var(--bg);
+}
+
+/* ── Scroll feel: keep fixed image on larger screens, use normal image on touch/mobile ── */
+@media (hover: none), (max-width: 900px) {
+  .hero-image-card,
   .partner-hero {
-    min-height: 66vh;
-  }
-  .partner-hero::before,
-  .hero .hero-image-card-overlay {
-    background:
-      linear-gradient(180deg,
-        rgba(8,10,15,.88) 0%,
-        rgba(8,10,15,.76) 42%,
-        rgba(8,10,15,.56) 100%);
-  }
-  .hero .hero-image-card-content {
-    width: min(100% - 36px, 720px);
+    background-attachment: scroll;
   }
 }
 
+/* ── Mobile hero corrections ────────────────────────────── */
 @media (max-width: 700px) {
-  :root {
-    --nav-h: 76px;
-    --hero-min: 70vh;
-    --hero-min-partner: 64vh;
-  }
-  .nav-shell {
-    width: min(100% - 24px, var(--max));
-    min-height: 58px;
-    margin-top: 9px;
-    padding-left: 16px;
-  }
-  .brand {
-    font-size: 14px;
-  }
   .brand-icon {
-    width: 30px;
-    height: 23px;
+    width: 28px;
+    height: 22px;
   }
-  .hero {
-    padding-top: 72px;
+
+  .hero-image-card {
+    min-height: 88vh !important;
+    background-position: 68% center;
   }
-  .hero .hero-image-card {
-    min-height: var(--hero-min) !important;
+
+  .hero-image-card-overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0,.84) 0%,
+        rgba(0,0,0,.72) 48%,
+        rgba(0,0,0,.62) 100%
+      ) !important;
   }
-  .hero .hero-image-card-content {
-    min-height: var(--hero-min);
-    padding: calc(var(--nav-h) + 24px) 0 48px;
+
+  .hero-image-card-content {
+    width: min(100% - 32px, 680px) !important;
+    padding: calc(var(--nav-h) + 44px) 0 44px !important;
   }
-  .hero .hero-image-card-content h1,
-  .partner-hero h1 {
-    font-size: clamp(38px, 12.5vw, 62px);
-    line-height: .91;
+
+  .hero-image-card-content h1 {
+    max-width: 100%;
+    font-size: clamp(40px, 12vw, 58px) !important;
+    line-height: .95 !important;
   }
-  .hero .cards:has(.stat-card) {
-    grid-template-columns: 1fr !important;
+
+  .hero-image-card-content h1 .accent {
+    white-space: normal;
   }
-  .hero .stat-card {
-    min-height: auto;
+
+  .hero-image-card-content .lede {
+    font-size: 16px !important;
+    line-height: 1.58 !important;
   }
+
   .partner-hero {
-    padding: calc(var(--nav-h) + 34px) 0 54px;
+    min-height: 72vh;
+    background-position: 70% center;
   }
-  .paper-section,
-  .dark-section,
-  .brown-section {
-    padding: 48px 0;
+
+  .partner-hero::before {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0,.86) 0%,
+        rgba(0,0,0,.74) 50%,
+        rgba(0,0,0,.62) 100%
+      );
   }
-  .image-banner {
-    min-height: 360px;
+
+  .partner-hero .container {
+    width: min(100% - 32px, 680px);
+    padding: calc(var(--nav-h) + 44px) 0 46px;
+  }
+
+  .partner-hero h1 {
+    font-size: clamp(34px, 10vw, 48px) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-image-card-content,
+  .hero-image-card-content .kicker,
+  .hero-image-card-content h1,
+  .hero-image-card-content .lede,
+  .hero-image-card-content .hero-actions,
+  .partner-hero-copy {
+    animation: none !important;
   }
 }
