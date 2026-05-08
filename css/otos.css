@@ -20,3 +20,68 @@ main{background:var(--paper)}.section{padding:clamp(78px,10vw,150px) 0}.section.
 .footer{background:#080a0f;color:rgba(255,255,255,.62);padding:42px 0}.footer-inner{width:min(var(--max),calc(100% - 44px));margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;font-weight:800}.footer a{color:#fff;text-decoration:none}
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
 @media(max-width:920px){.nav-links{display:none}.hero-copy{width:calc(100% - 32px);padding-bottom:72px}.hero h1{font-size:clamp(48px,15vw,76px)}.split,.split.reverse{grid-template-columns:1fr}.split.reverse .copy,.split.reverse .media{order:initial}.steps,.boundaries,.nav-grid{grid-template-columns:1fr}.media img{min-height:300px}.hero-media.fixed{background-attachment:scroll}.section{padding:74px 0}.hero{min-height:92vh}.ticker{display:none}}
+/* =========================================================
+   HERO PATCH ONLY — static hero image, text scrolls over it
+   Paste at END of css/otos.css
+   No HTML changes required
+   ========================================================= */
+
+.hero{
+  position:relative;
+  min-height:140svh;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10,10,10,.12) 0%,
+      rgba(10,10,10,.22) 35%,
+      rgba(10,10,10,.46) 68%,
+      rgba(10,10,10,.72) 100%
+    ),
+    var(--hero) center center / cover no-repeat fixed;
+}
+
+/* if you use the shorter hero variant */
+.hero--short{
+  min-height:120svh;
+}
+
+/* hero text container */
+.hero .container,
+.hero .hero-inner,
+.hero .hero__inner{
+  position:relative;
+  z-index:2;
+  padding-top:74svh;
+  padding-bottom:8svh;
+}
+
+/* keep text readable over image */
+.hero h1,
+.hero p,
+.hero .eyebrow,
+.hero .kicker{
+  position:relative;
+  z-index:2;
+}
+
+/* mobile / tablet fallback */
+@media (max-width: 920px){
+  .hero{
+    min-height:112svh;
+    background-attachment:scroll; /* fixed is unreliable on iPhone */
+  }
+
+  .hero--short{
+    min-height:96svh;
+  }
+
+  .hero .container,
+  .hero .hero-inner,
+  .hero .hero__inner{
+    padding-top:56svh;
+    padding-bottom:7svh;
+  }
+}
