@@ -1011,4 +1011,70 @@ td{color:var(--paper-muted);font-weight:500}
     max-width:620px;
     margin:18px auto 20px;
   }
+
+   /* =========================================================
+   HERO PATCH ONLY — static hero image, text scrolls over it
+   Paste at END of css/otos.css
+   No HTML changes required
+   ========================================================= */
+
+.hero{
+  position:relative;
+  min-height:140svh;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10,10,10,.12) 0%,
+      rgba(10,10,10,.22) 35%,
+      rgba(10,10,10,.46) 68%,
+      rgba(10,10,10,.72) 100%
+    ),
+    var(--hero) center center / cover no-repeat fixed;
+}
+
+/* if you use the shorter hero variant */
+.hero--short{
+  min-height:120svh;
+}
+
+/* hero text container */
+.hero .container,
+.hero .hero-inner,
+.hero .hero__inner{
+  position:relative;
+  z-index:2;
+  padding-top:74svh;
+  padding-bottom:8svh;
+}
+
+/* keep text readable over image */
+.hero h1,
+.hero p,
+.hero .eyebrow,
+.hero .kicker{
+  position:relative;
+  z-index:2;
+}
+
+/* mobile / tablet fallback */
+@media (max-width: 920px){
+  .hero{
+    min-height:112svh;
+    background-attachment:scroll; /* fixed is unreliable on iPhone */
+  }
+
+  .hero--short{
+    min-height:96svh;
+  }
+
+  .hero .container,
+  .hero .hero-inner,
+  .hero .hero__inner{
+    padding-top:56svh;
+    padding-bottom:7svh;
+  }
+}
 }
