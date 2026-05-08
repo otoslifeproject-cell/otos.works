@@ -7,6 +7,7 @@
   --muted:#75695d;
   --orange:#f26c0d;
   --orange2:#ff8a1f;
+  --orange-2:#ff8a1f;
   --line:rgba(0,0,0,.12);
   --whiteLine:rgba(255,255,255,.16);
   --max:1480px;
@@ -102,36 +103,49 @@ img{max-width:100%;display:block}
 
 .hero{
   position:relative;
-  min-height:92vh;
+  min-height:108vh;
   display:flex;
   align-items:flex-end;
   overflow:hidden;
+  clip-path:inset(0);
+  isolation:isolate;
   color:#fff;
   background:#080a0f;
 }
 
 .hero--short{
-  min-height:76vh;
+  min-height:88vh;
+}
+
+.hero--locked{
+  min-height:110vh;
 }
 
 .hero-media{
-  position:absolute;
+  position:fixed;
   inset:0;
+  width:100%;
+  height:100vh;
+  z-index:0;
+  pointer-events:none;
   background-image:var(--hero);
   background-size:cover;
   background-position:center;
   transform:scale(1.01);
   filter:saturate(.96) contrast(1.02);
+  will-change:transform;
 }
 
 .hero-media.fixed{
-  background-attachment:fixed;
+  background-attachment:scroll;
 }
 
 .hero:after{
   content:"";
-  position:absolute;
+  position:fixed;
   inset:0;
+  z-index:1;
+  pointer-events:none;
   background:
     linear-gradient(90deg,
       rgba(3,4,7,.90) 0%,
@@ -228,7 +242,7 @@ img{max-width:100%;display:block}
 
 /* ===== PAGE SYSTEM ===== */
 
-main{background:var(--paper)}
+main{background:var(--paper);position:relative;z-index:5}
 
 .section{
   padding:clamp(78px,10vw,150px) 0;
@@ -342,6 +356,8 @@ main{background:var(--paper)}
 .statement{
   padding:clamp(70px,8vw,120px) 0;
   background:#fff;
+  position:relative;
+  z-index:5;
 }
 
 .statement .quote{
@@ -486,6 +502,8 @@ main{background:var(--paper)}
   background:#080a0f;
   color:rgba(255,255,255,.62);
   padding:42px 0;
+  position:relative;
+  z-index:5;
 }
 
 .footer-inner{
@@ -515,64 +533,7 @@ main{background:var(--paper)}
   transform:none;
 }
 
-/* ===== RESPONSIVE ===== */
-
-@media(max-width:920px){
-  .nav-links{display:none}
-
-  .hero{
-    min-height:88vh;
-  }
-
-  .hero-copy{
-    width:calc(100% - 32px);
-    padding:128px 0 62px;
-  }
-
-  .hero h1{
-    font-size:clamp(44px,13.5vw,72px);
-    line-height:.96;
-    letter-spacing:-.052em;
-    max-width:100%;
-  }
-
-  .hero .lede{
-    font-size:18px;
-    line-height:1.4;
-  }
-
-  .split,
-  .split.reverse{
-    grid-template-columns:1fr;
-  }
-
-  .split.reverse .copy,
-  .split.reverse .media{
-    order:initial;
-  }
-
-  .steps,
-  .boundaries,
-  .nav-grid{
-    grid-template-columns:1fr;
-  }
-
-  .media img{
-    min-height:300px;
-  }
-
-  .hero-media.fixed{
-    background-attachment:scroll;
-  }
-
-  .section{
-    padding:74px 0;
-  }
 /* ===== MASTER PARTNER PAGE LOCK ===== */
-
-.hero--locked{
-  min-height:94vh;
-}
 
 .master-section .container,
 .master-section .wide{
@@ -605,22 +566,107 @@ main{background:var(--paper)}
   object-fit:cover;
 }
 
+.master-split .boundaries,
+.master-split .steps{
+  margin-top:0;
+}
+
+.master-split .copy > .boundaries,
+.master-split .copy > .steps{
+  width:100%;
+}
+
+.partner-visual-only{
+  min-height:560px;
+}
+
+/* ===== RESPONSIVE ===== */
+
 @media(max-width:920px){
-  .hero--locked{
-    min-height:88vh;
+  .nav-inner{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:10px;
   }
 
+  .nav-links{
+    display:flex;
+    width:100%;
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    padding-bottom:6px;
+    scrollbar-width:none;
+  }
+
+  .nav-links::-webkit-scrollbar{
+    display:none;
+  }
+
+  .nav-links a{
+    white-space:nowrap;
+  }
+
+  .hero,
+  .hero--short,
+  .hero--locked{
+    min-height:100vh;
+  }
+
+  .hero-copy{
+    width:calc(100% - 32px);
+    padding:128px 0 62px;
+  }
+
+  .hero h1{
+    font-size:clamp(44px,13.5vw,72px);
+    line-height:.96;
+    letter-spacing:-.052em;
+    max-width:100%;
+  }
+
+  .hero .lede{
+    font-size:18px;
+    line-height:1.4;
+  }
+
+  .hero-media,
+  .hero:after{
+    position:absolute;
+    height:100%;
+  }
+
+  .split,
+  .split.reverse,
   .master-split,
   .master-split.reverse{
     grid-template-columns:1fr;
   }
 
+  .split.reverse .copy,
+  .split.reverse .media,
   .master-split.reverse .copy,
   .master-split.reverse .media{
     order:initial;
   }
 
-  .media-match-text img{
-    min-height:340px;
+  .steps,
+  .boundaries,
+  .nav-grid{
+    grid-template-columns:1fr;
   }
+
+  .media img,
+  .media-match-text img{
+    min-height:300px;
+  }
+
+  .section{
+    padding:74px 0;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{transition:none;opacity:1;transform:none}
 }
