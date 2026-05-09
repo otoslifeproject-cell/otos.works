@@ -71,3 +71,163 @@ a{color:inherit} img{max-width:100%;display:block}
 @media(max-width:980px){.nav-links{display:none}.brand{min-width:auto}.hero{--hero-pos:center center;--hero-overlay:linear-gradient(90deg,rgba(7,9,13,.78),rgba(7,9,13,.48)),linear-gradient(0deg,rgba(7,9,13,.82),rgba(7,9,13,.18) 52%,rgba(7,9,13,0));--hero-copy-pad-top:clamp(100px,14svh,136px);--hero-copy-pad-bottom:clamp(54px,8svh,80px);--hero-min:clamp(580px,92svh,820px)}.hero-copy{width:calc(100% - 30px)}.hero h1{letter-spacing:-.07em}.inner{grid-template-columns:1fr}.num{font-size:25px}.two,.media,.final .media,.cards,.route-list{grid-template-columns:1fr}.media.right .image-card,.media.right .copy-card,.media.left .image-card,.media.left .copy-card{order:initial}.section{padding:clamp(52px,8vw,72px) 0}.footer-inner{display:grid}.nav-inner{min-height:70px}.brand-logo{width:36px;height:36px}}
 @media(max-width:680px){.hero{--hero-title-size:clamp(40px,12vw,64px);--hero-title-max:96%;--hero-lede-max:96%;--hero-copy-pad-top:108px;--hero-copy-pad-bottom:54px;--hero-min:clamp(560px,92svh,760px)}.hero--title-large,.hero--title-normal,.hero--title-compact{--hero-title-size:clamp(40px,12vw,64px)}.hero .lede{font-size:clamp(17px,4.2vw,21px)}.actions{gap:10px}.btn{width:100%;min-height:46px}.image-card{min-height:300px}.image-card img{min-height:260px}.copy-card{padding:22px}.section h2{font-size:clamp(30px,9vw,48px)}}
 @media(max-width:420px){.hero{--hero-title-size:clamp(36px,13vw,54px);--hero-copy-pad-top:96px;--hero-copy-pad-bottom:44px}.hero--title-large,.hero--title-normal,.hero--title-compact{--hero-title-size:clamp(36px,13vw,54px)}.hero .lede{font-size:17px}.eyebrow{letter-spacing:.16em}.brand span{font-size:13px}}
+
+/* ============================================================
+   DESIGN SYSTEM BRIDGE PASS — v1
+   Keeps the current 6-section frame, but restores the original
+   OTOS design-system behaviours: fluid micro-resizing, glass nav,
+   calmer cream cards, proof/stat windows, and smoother hover states.
+   ============================================================ */
+
+:root{
+  --bg:#080a0f;
+  --bg-2:#0d1118;
+  --panel:#111821;
+  --brown:#2d1f14;
+  --brown-2:#3a2718;
+  --paper:#f7f1e7;
+  --paper2:#fbf7ee;
+  --paper-3:#fff9f2;
+  --ink:#1e1710;
+  --ink-dark:#fbf7ee;
+  --muted:#6b5544;
+  --muted-dark:#aeb4c0;
+  --orange:#f26c0d;
+  --orangeSoft:#ff8a1f;
+  --line:rgba(70,48,34,.13);
+  --line-dark:rgba(255,255,255,.12);
+  --shadow-sm:0 4px 16px rgba(64,42,22,.08);
+  --shadow:0 12px 40px rgba(64,42,22,.12);
+  --shadow-lg:0 24px 64px rgba(64,42,22,.16);
+  --shadow-dark:0 22px 70px rgba(0,0,0,.22);
+  --glow:0 0 0 1px rgba(255,255,255,.10),0 28px 90px rgba(0,0,0,.38);
+  --radius:22px;
+  --radius-sm:14px;
+  --radius-lg:30px;
+  --max:1280px;
+}
+
+body{font-size:clamp(16px,.28vw + 15px,18px);line-height:1.7;background:var(--paper);}
+p{margin-top:0;}
+
+/* Floating glass nav from the earlier design system */
+.site-nav{height:clamp(70px,7vw,86px);background:transparent;pointer-events:none;}
+.nav-inner{
+  width:min(var(--max),calc(100% - clamp(28px,4vw,48px)));
+  min-height:clamp(54px,5vw,62px);
+  margin:clamp(10px,1.2vw,14px) auto 0;
+  padding:0 clamp(8px,1vw,12px) 0 clamp(16px,1.8vw,22px);
+  border:1px solid rgba(255,255,255,.13);
+  background:linear-gradient(180deg,rgba(18,22,30,.88),rgba(10,12,18,.78));
+  border-radius:999px;
+  box-shadow:0 16px 48px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+}
+.brand{min-width:auto;font-size:clamp(13px,.58vw + 10px,16px);gap:9px;letter-spacing:-.03em;}
+.brand-logo{width:clamp(24px,2.4vw,34px);height:clamp(24px,2.4vw,34px);}
+.nav-links{gap:clamp(2px,.6vw,8px);}
+.nav-links a{padding:8px clamp(8px,.8vw,12px);border-radius:999px;border:1px solid transparent;transition:background .16s ease,color .16s ease,border-color .16s ease,transform .16s ease;}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.11);transform:translateY(-1px);}
+.nav-cta{background:var(--orange)!important;color:#fff!important;border-color:transparent!important;padding:9px 16px!important;box-shadow:0 8px 28px rgba(242,108,13,.28);}
+
+/* Micro-fluid hero system: no hard jumps, just small stages */
+.hero{
+  --hero-min:clamp(620px,92svh,920px);
+  --hero-copy-pad-top:clamp(106px,13svh,156px);
+  --hero-copy-pad-bottom:clamp(54px,9svh,92px);
+  --hero-title-size:clamp(40px,5.8vw,88px);
+  --hero-title-max:880px;
+  --hero-lede-max:720px;
+  --hero-zoom:1.015;
+  --hero-overlay:linear-gradient(90deg,rgba(8,10,15,.78),rgba(8,10,15,.54) 40%,rgba(8,10,15,.22) 72%,rgba(8,10,15,.06)),linear-gradient(0deg,rgba(8,10,15,.76),rgba(8,10,15,.20) 42%,rgba(8,10,15,0) 78%);
+  min-height:var(--hero-min);
+}
+.hero-image{transform:scale(var(--hero-zoom));transition:transform .45s ease,filter .45s ease,object-position .45s ease;}
+.hero-copy{padding:var(--hero-copy-pad-top) 0 var(--hero-copy-pad-bottom);}
+.hero h1{font-size:var(--hero-title-size);max-width:var(--hero-title-max);line-height:.92;letter-spacing:-.068em;text-wrap:balance;}
+.hero .lede{font-size:clamp(17px,.8vw + 14px,25px);line-height:1.25;max-width:var(--hero-lede-max);}
+.eyebrow{display:block;border:0;background:transparent;padding:0;margin-bottom:clamp(12px,1.4vw,18px);color:var(--orangeSoft);}
+
+/* Design-system kicker restored for normal page sections */
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--orange);
+  border:1px solid rgba(242,108,13,.45);
+  background:rgba(242,108,13,.09);
+  border-radius:999px;
+  padding:7px 13px;
+  margin-bottom:clamp(16px,1.8vw,22px);
+  font-size:11px;
+  letter-spacing:.22em;
+}
+.dark .kicker{background:rgba(242,108,13,.10);border-color:rgba(255,138,31,.36);color:var(--orangeSoft);}
+
+/* Per-page hero nudges: preserve images but respect their focal point */
+.hero--index{--hero-pos:70% center;--hero-title-size:clamp(39px,5.1vw,78px);--hero-title-max:780px;--hero-overlay:linear-gradient(90deg,rgba(8,10,15,.82),rgba(8,10,15,.58) 42%,rgba(8,10,15,.25) 72%,rgba(8,10,15,.08)),linear-gradient(0deg,rgba(8,10,15,.74),rgba(8,10,15,.18) 42%,rgba(8,10,15,0) 78%);}
+.hero--full-plan,.hero--numbers,.hero--evidence,.hero--evidence-sources{--hero-pos:center center;--hero-title-size:clamp(42px,5.6vw,86px);--hero-overlay:linear-gradient(90deg,rgba(8,10,15,.80),rgba(8,10,15,.54) 42%,rgba(8,10,15,.20) 72%,rgba(8,10,15,.04)),linear-gradient(0deg,rgba(8,10,15,.68),rgba(8,10,15,.14) 42%,rgba(8,10,15,0) 78%);}
+.hero--addenbrookes,.hero--alcohol-care{--hero-pos:72% center;--hero-title-size:clamp(40px,5.3vw,82px);--hero-title-max:790px;}
+.hero--cpft-adhd{--hero-pos:70% center;--hero-title-size:clamp(39px,5.1vw,80px);--hero-title-max:760px;}
+.hero--cgl-crs,.hero--mind-route,.hero--rce{--hero-pos:55% center;--hero-title-size:clamp(39px,5.2vw,82px);--hero-overlay:linear-gradient(90deg,rgba(8,10,15,.84),rgba(8,10,15,.62) 44%,rgba(8,10,15,.28) 74%,rgba(8,10,15,.08)),linear-gradient(0deg,rgba(8,10,15,.78),rgba(8,10,15,.22) 42%,rgba(8,10,15,0) 78%);}
+.hero--founder-story{--hero-pos:76% center;--hero-title-size:clamp(40px,5.4vw,84px);--hero-title-max:760px;}
+.hero--how-it-works,.hero--ripple-effect{--hero-pos:center center;--hero-title-size:clamp(40px,5.4vw,86px);}
+
+/* Cards: bring back premium paper/glass feel without changing layout */
+.copy-card,.image-card,.mini-card,.route{
+  border-color:var(--line);
+  background:rgba(255,249,242,.86);
+  box-shadow:var(--shadow-sm);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease;
+}
+.copy-card{position:relative;overflow:hidden;}
+.copy-card::after,.mini-card::after,.route::after{
+  content:'';position:absolute;right:-40px;bottom:-44px;width:120px;height:92px;
+  background:url('../images/otos-brain-icon.png') center/contain no-repeat;opacity:.035;pointer-events:none;
+}
+.copy-card:hover,.mini-card:hover,.route:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:rgba(242,108,13,.18);}
+.dark .copy-card,.dark .mini-card{background:linear-gradient(180deg,rgba(18,26,38,.82),rgba(10,14,22,.68));border-color:var(--line-dark);box-shadow:var(--shadow-dark);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
+.image-card{box-shadow:var(--shadow);}
+.image-card img{transition:transform .45s ease,filter .45s ease;}
+.image-card:hover img{transform:scale(1.012);}
+
+.btn{transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 12px 36px rgba(242,108,13,.30);}
+.btn.secondary:hover{box-shadow:0 12px 36px rgba(0,0,0,.26);background:rgba(255,255,255,.13);}
+
+/* Proof / stat window system — ready for the 61.3% and clinical proof blocks */
+.proof-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.5vw,20px);margin:clamp(24px,3vw,38px) 0;}
+.proof-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));}
+.proof-window{
+  position:relative;overflow:hidden;min-height:clamp(180px,18vw,250px);
+  border:1px solid var(--line);border-radius:var(--radius-lg);
+  background:linear-gradient(180deg,rgba(255,253,248,.94),rgba(251,247,238,.86));
+  box-shadow:var(--shadow);padding:clamp(22px,2.4vw,32px);
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.proof-window::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--orange);}
+.proof-window::after{content:'';position:absolute;right:-52px;bottom:-48px;width:150px;height:115px;background:url('../images/otos-brain-icon.png') center/contain no-repeat;opacity:.04;}
+.proof-label{font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;}
+.proof-stat{display:block;font-size:clamp(42px,6.8vw,92px);line-height:.82;font-weight:1000;letter-spacing:-.08em;color:var(--orange);margin:0 0 14px;}
+.proof-title{font-size:clamp(20px,1.5vw,28px);line-height:1.02;font-weight:1000;letter-spacing:-.055em;margin:0 0 10px;color:var(--ink);}
+.proof-note{font-size:clamp(14px,.3vw + 13px,16px);line-height:1.55;color:var(--muted);font-weight:650;margin:0;}
+.proof-source{margin-top:18px;padding-top:14px;border-top:1px solid rgba(70,48,34,.12);font-size:11px;line-height:1.35;color:rgba(107,85,68,.82);font-weight:850;text-transform:uppercase;letter-spacing:.12em;}
+.proof-window.dark,.dark .proof-window{background:linear-gradient(180deg,rgba(18,26,38,.90),rgba(10,14,22,.78));border-color:var(--line-dark);box-shadow:var(--shadow-dark);}
+.proof-window.dark .proof-title,.dark .proof-window .proof-title{color:#fff;}
+.proof-window.dark .proof-note,.dark .proof-window .proof-note{color:rgba(255,255,255,.72);}
+.proof-window.dark .proof-source,.dark .proof-window .proof-source{border-top-color:rgba(255,255,255,.10);color:rgba(255,255,255,.50);}
+.proof-window.letter{border-left:0;background:linear-gradient(135deg,rgba(255,249,242,.95),rgba(242,108,13,.08));}
+.proof-window.letter .proof-stat{font-size:clamp(30px,4vw,54px);line-height:.92;}
+
+/* Source/audit rows from original design system */
+.source-list{display:flex;flex-direction:column;gap:2px;margin-top:24px;}
+.source-card{border:1px solid var(--line-dark);border-bottom:none;padding:24px 28px;position:relative;overflow:hidden;background:rgba(255,255,255,.02);}
+.source-card:first-child{border-radius:var(--radius-sm) var(--radius-sm) 0 0;}.source-card:last-child{border-radius:0 0 var(--radius-sm) var(--radius-sm);border-bottom:1px solid var(--line-dark);}.source-card:only-child{border-radius:var(--radius-sm);border-bottom:1px solid var(--line-dark);}.source-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--orange);} .source-card.published::before{background:#5a9e6a}.source-card.cpft::before{background:#6495ed}.source-card.modelling::before{background:var(--orange)}.source-card h3{font-size:18px;margin:0 0 8px;color:#fff}.source-card p{font-size:15px;color:var(--muted-dark);line-height:1.72;margin:0}.source-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:9px;background:rgba(242,108,13,.12);color:var(--orangeSoft);border:1px solid rgba(242,108,13,.2)}
+
+/* More graceful micro stages */
+@media(max-width:1320px){.hero{--hero-title-size:clamp(40px,5.9vw,84px);--hero-min:clamp(600px,90svh,880px)}.hero--title-large{--hero-title-size:clamp(44px,6.6vw,94px)}}
+@media(max-width:1120px){.hero{--hero-title-size:clamp(38px,6.5vw,78px);--hero-copy-pad-top:clamp(96px,12svh,132px);--hero-copy-pad-bottom:clamp(48px,8svh,76px)}.hero .lede{font-size:clamp(17px,1.2vw + 12px,23px)}.proof-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:900px){.nav-inner{border-radius:22px;padding:0 18px}.hero{--hero-pos:center center;--hero-title-size:clamp(38px,8.8vw,70px);--hero-overlay:linear-gradient(90deg,rgba(8,10,15,.82),rgba(8,10,15,.58)),linear-gradient(0deg,rgba(8,10,15,.84),rgba(8,10,15,.20) 54%,rgba(8,10,15,0));--hero-min:clamp(560px,88svh,780px)}.copy-card:hover,.mini-card:hover,.route:hover{transform:none}.proof-grid,.proof-grid.two{grid-template-columns:1fr;}}
+@media(max-width:640px){.hero{--hero-title-size:clamp(36px,11.2vw,58px);--hero-copy-pad-top:102px;--hero-copy-pad-bottom:46px;--hero-min:clamp(540px,86svh,720px)}.hero .lede{font-size:clamp(16px,4vw,20px)}.proof-window{min-height:170px}.proof-stat{font-size:clamp(44px,16vw,76px)}.section{padding:clamp(46px,10vw,64px) 0}.route{min-height:auto}.nav-inner{width:calc(100% - 22px)}}
+@media(max-width:420px){.hero{--hero-title-size:clamp(34px,12.6vw,50px);--hero-copy-pad-top:94px;--hero-copy-pad-bottom:42px}.hero .lede{font-size:16px}.eyebrow{letter-spacing:.14em}.brand span{font-size:12px}.brand-logo{width:26px;height:26px}.proof-window{padding:20px}.proof-title{font-size:20px}}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
