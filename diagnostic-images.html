@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OTOS Image Diagnostic</title>
+<style>
+  :root{--paper:#f5efe2;--paper2:#fff9ef;--ink:#1a130d;--muted:#66594b;--orange:#e86616;--black:#07090d;--line:rgba(26,19,13,.15)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+  header{position:sticky;top:0;background:var(--black);color:#fff;padding:20px 28px;z-index:3;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+  h1{margin:0;font-size:30px;letter-spacing:-.04em}
+  header p{margin:8px 0 0;max-width:980px;color:rgba(255,255,255,.78)}
+  main{padding:28px;max-width:1500px;margin:0 auto}
+  .note{background:var(--paper2);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:24px;line-height:1.5}
+  .note strong{color:var(--orange)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .card{background:#fffdf8;border:1px solid rgba(26,19,13,.16);border-radius:18px;overflow:hidden;box-shadow:0 12px 36px rgba(40,25,12,.07)}
+  .card h2{font-size:16px;margin:0;padding:14px 16px;border-bottom:1px solid rgba(26,19,13,.12);background:var(--paper2);letter-spacing:-.02em}
+  .slot{padding:14px 16px;border-top:1px solid rgba(26,19,13,.08)}
+  .slot:first-of-type{border-top:0}
+  .slot code{font-size:12px;display:block;margin-bottom:8px;color:var(--muted);word-break:break-all;background:#f2eadc;padding:8px;border-radius:10px}
+  .slot img{width:100%;height:180px;object-fit:cover;background:#111;border-radius:12px;border:1px solid rgba(26,19,13,.12)}
+  .slot.hero img{height:220px}
+  .links{font-size:12px;margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .links a{color:var(--orange);font-weight:800;text-decoration:none}
+  .status{font-size:12px;font-weight:900;color:var(--muted)}
+  img.good{outline:4px solid #2f9e44}
+  img.bad{outline:4px solid #d9480f}
+</style>
+</head>
+<body>
+<header>
+  <h1>OTOS image diagnostic</h1>
+  <p>This checks whether the image files are actually loading from the branch. If images show here but not on the site pages, the issue is CSS/layout. If images fail here, the upload/path/name is the issue.</p>
+</header>
+<main>
+  <div class="note">
+    <strong>Upload this file to the root of the GitHub branch</strong>, next to <code>index.html</code>. Then open <code>/diagnostic-images.html</code> on the Vercel preview. Red outline = missing/broken image. Green outline = image loaded.
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+const pages = [
+  'index',
+  'public',
+  'partners',
+  'partners-addenbrookes',
+  'partners-cpft-alcohol-care',
+  'partners-cgl-crs',
+  'partners-cpft-adhd',
+  'partners-rce',
+  'partners-gp-rtc-qbtech',
+  'partners-mind-workwell-jo-fenton',
+  'local-authority-public-health',
+  'full-plan',
+  'evidence',
+  'evidence-sources',
+  'numbers',
+  'founder-story',
+  'how-it-works-visuals',
+  'ripple-effect'
+];
+
+const grid = document.getElementById('grid');
+for (const p of pages) {
+  const card = document.createElement('section');
+  card.className = 'card';
+  card.innerHTML = `<h2>${p}</h2>`;
+
+  [`${p}-hero1.png`, `${p}-image1.png`, `${p}-image2.png`].forEach(name => {
+    const src = `images/${name}`;
+    const slot = document.createElement('div');
+    slot.className = name.includes('hero') ? 'slot hero' : 'slot';
+    slot.innerHTML = `
+      <code>${src}</code>
+      <img src="${src}" alt="${src}">
+      <div class="links">
+        <a href="${src}" target="_blank" rel="noopener">open direct image</a>
+        <span class="status">checking…</span>
+      </div>
+    `;
+    const img = slot.querySelector('img');
+    const status = slot.querySelector('.status');
+    img.onload = () => { img.classList.add('good'); status.textContent = `loaded · ${img.naturalWidth}×${img.naturalHeight}`; };
+    img.onerror = () => { img.classList.add('bad'); status.textContent = 'MISSING / BROKEN'; };
+    card.appendChild(slot);
+  });
+  grid.appendChild(card);
+}
+</script>
+</body>
+</html>
