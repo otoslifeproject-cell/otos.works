@@ -770,3 +770,210 @@ p{margin-top:0;}
 @keyframes statCardSettle{0%{opacity:0;transform:translateY(22px) scale(.985)}70%{opacity:1;transform:translateY(-3px) scale(1.006)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes statValueSettle{0%{opacity:.2;transform:translateY(.28em) scale(.96)}58%{opacity:1;transform:translateY(-.06em) scale(1.04)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.stat-ticker,.stat-ticker-value{animation:none!important;}}
+
+
+/* ============================================================
+   STATIC IMAGES CLEAN PASS v1 — FINAL OVERRIDE
+   User rule: ALL IMAGES STATIC, EVERYTHING ELSE SCROLLS.
+   - Hero image is a fixed visual background; hero text scrolls normally.
+   - In-page image cards use the image as a fixed background; the card scrolls.
+   - Final route panes sit over a fixed image-backed glass field.
+   - Removes previous sticky/fixed pseudo-layer conflicts.
+   ============================================================ */
+
+/* 1) HERO: background image static; copy scrolls with normal document flow. */
+.hero{
+  position:relative!important;
+  top:auto!important;
+  min-height:clamp(620px,96svh,920px)!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:#07090d!important;
+  z-index:1!important;
+  clip-path:none!important;
+  contain:none!important;
+}
+.hero-bg{
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+  background-image:var(--hero)!important;
+  background-size:cover!important;
+  background-position:var(--hero-pos,center center)!important;
+  background-repeat:no-repeat!important;
+  background-attachment:fixed!important;
+  transform:scale(var(--hero-zoom,1.01))!important;
+  filter:saturate(.98) contrast(1.03)!important;
+}
+.hero-image{
+  opacity:0!important;
+  visibility:hidden!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  pointer-events:none!important;
+}
+.hero::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  background:var(--hero-overlay)!important;
+}
+.hero::after{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;right:0!important;bottom:0!important;
+  height:26%!important;
+  z-index:2!important;
+  pointer-events:none!important;
+  background:linear-gradient(0deg,rgba(245,239,226,.96),rgba(245,239,226,0))!important;
+  opacity:.12!important;
+}
+.hero-copy{
+  position:relative!important;
+  z-index:3!important;
+  transform:none!important;
+  will-change:auto!important;
+}
+.page-shell{
+  position:relative!important;
+  z-index:10!important;
+  background:var(--paper)!important;
+  margin-top:0!important;
+  box-shadow:0 -52px 110px rgba(0,0,0,.24)!important;
+}
+
+/* 2) IN-PAGE IMAGE CARDS: fixed visual background; card and text still scroll. */
+.image-card[style*="--card-img"]{
+  position:relative!important;
+  background-image:
+    linear-gradient(180deg,rgba(7,9,13,.08),rgba(7,9,13,.18)),
+    var(--card-img)!important;
+  background-size:cover!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-attachment:fixed!important;
+  min-height:clamp(320px,32vw,520px)!important;
+  overflow:hidden!important;
+}
+.image-card[style*="--card-img"] img{
+  opacity:0!important;
+  visibility:hidden!important;
+  min-height:clamp(320px,32vw,520px)!important;
+}
+.image-card[style*="--card-img"] .caption{
+  position:absolute!important;
+  left:0!important;right:0!important;bottom:0!important;
+  z-index:2!important;
+  background:linear-gradient(180deg,rgba(7,9,13,0),rgba(7,9,13,.64))!important;
+  padding-top:56px!important;
+}
+
+/* 3) FINAL / ROUTE PANE SYSTEM: image behind the panes, static; glass above. */
+.section.final.section--pane-bg{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:var(--paper)!important;
+}
+.section.final.section--pane-bg::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  background-image:var(--panel-bg)!important;
+  background-size:cover!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-attachment:fixed!important;
+  filter:saturate(.98) contrast(1.04) brightness(.98)!important;
+  opacity:.42!important;
+  transform:scale(1.02)!important;
+  pointer-events:none!important;
+}
+.section.final.section--pane-bg::after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  background:
+    linear-gradient(180deg,rgba(245,239,226,.88),rgba(245,239,226,.64) 44%,rgba(245,239,226,.88)),
+    radial-gradient(circle at 80% 78%,rgba(232,102,22,.20),rgba(232,102,22,0) 40%),
+    radial-gradient(circle at 12% 16%,rgba(255,255,255,.55),rgba(255,255,255,0) 45%)!important;
+}
+.section.final.section--pane-bg > .inner{position:relative!important;z-index:2!important;}
+.section.final.section--pane-bg .media{
+  position:relative!important;
+  z-index:2!important;
+  align-items:stretch!important;
+  padding:clamp(18px,2.4vw,30px)!important;
+  border:1px solid rgba(255,255,255,.66)!important;
+  border-radius:clamp(28px,3.2vw,44px)!important;
+  background:linear-gradient(135deg,rgba(255,253,248,.44),rgba(255,244,226,.22))!important;
+  box-shadow:0 30px 96px rgba(65,42,22,.14), inset 0 1px 0 rgba(255,255,255,.76)!important;
+  backdrop-filter:blur(18px) saturate(1.08)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.08)!important;
+  overflow:hidden!important;
+}
+.section.final.section--pane-bg .copy-card,
+.section.final.section--pane-bg .route-list{
+  position:relative!important;
+  z-index:3!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  background:linear-gradient(180deg,rgba(255,253,248,.66),rgba(255,249,239,.44))!important;
+  box-shadow:0 18px 56px rgba(33,22,12,.10), inset 0 1px 0 rgba(255,255,255,.82)!important;
+  backdrop-filter:blur(16px) saturate(1.16)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.16)!important;
+}
+.section.final.section--pane-bg .route-list{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:clamp(12px,1.4vw,18px)!important;
+  padding:clamp(14px,1.7vw,22px)!important;
+  border-radius:clamp(24px,2.8vw,36px)!important;
+  overflow:hidden!important;
+  background-image:
+    linear-gradient(180deg,rgba(255,253,248,.48),rgba(255,249,239,.36)),
+    var(--panel-bg)!important;
+  background-size:cover!important;
+  background-position:center!important;
+  background-attachment:fixed!important;
+}
+.section.final.section--pane-bg .route-list::before,
+.section.final.section--pane-bg .route-list::after{display:none!important;content:none!important;}
+.section.final.section--pane-bg .route{
+  min-height:clamp(150px,17vw,250px)!important;
+  display:flex!important;
+  justify-content:center!important;
+  padding:clamp(18px,2vw,28px)!important;
+  border:1px solid rgba(255,255,255,.78)!important;
+  border-radius:clamp(20px,2.2vw,30px)!important;
+  background:linear-gradient(180deg,rgba(255,253,248,.62),rgba(255,249,239,.38))!important;
+  box-shadow:0 15px 42px rgba(33,22,12,.08), inset 0 1px 0 rgba(255,255,255,.88)!important;
+  backdrop-filter:blur(18px) saturate(1.18)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.18)!important;
+  transform:none!important;
+}
+.section.final.section--pane-bg .route:hover{
+  transform:translateY(-2px) scale(1.004)!important;
+  background:linear-gradient(180deg,rgba(255,253,248,.82),rgba(255,249,239,.58))!important;
+}
+
+/* 4) Small screens: fixed backgrounds are unreliable on mobile Safari, so fall back to stable scroll. */
+@media(max-width:980px), (prefers-reduced-motion:reduce){
+  .hero-bg,.image-card[style*="--card-img"],.section.final.section--pane-bg::before,.section.final.section--pane-bg .route-list{
+    background-attachment:scroll!important;
+  }
+  .hero{min-height:clamp(540px,84svh,740px)!important;}
+  .section.final.section--pane-bg .media{grid-template-columns:1fr!important;}
+  .section.final.section--pane-bg .route-list{grid-template-columns:1fr!important;}
+  .section.final.section--pane-bg .route{min-height:118px!important;}
+}

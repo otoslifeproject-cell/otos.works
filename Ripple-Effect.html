@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>The Ripple Effect — OTOS Continuity</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --bg: #080a0f;
@@ -429,357 +430,304 @@
 </style>
 </head>
 <body>
-
 <section class="ripple-section">
-  <div class="section-inner">
-
-    <!-- Header -->
-    <div class="section-header fd">
-      <div class="kicker">
-        <img src="assets/otos-brain-icon.png" class="kicker-brain" alt="">
+<div class="section-inner">
+<!-- Header -->
+<div class="section-header fd">
+<div class="kicker">
+<img alt="" class="kicker-brain" src="assets/otos-brain-icon.png"/>
         The Ripple Effect
       </div>
-      <h2 class="section-title">One person.<br><span>Every life around them.</span></h2>
-      <p class="section-lede">When ADHD-driven addiction goes undiagnosed, the cost isn't contained to one person. It radiates outward — ring by ring — touching everyone around them, then everyone around them.</p>
-    </div>
-
-    <!-- Cost bookends -->
-    <div class="cost-banner fd">
-      <div class="cost-card primary">
-        <div class="cost-card-label">Conservative cost to the state</div>
-        <div class="cost-card-num">£40,070</div>
-        <div class="cost-card-sub">per person · per year · one cycle</div>
-      </div>
-      <div class="cost-arrow">
-        <div class="cost-arrow-line"></div>
-        <div style="font-size:10px;color:var(--muted);margin-top:6px;">with repeat</div>
-      </div>
-      <div class="cost-card primary">
-        <div class="cost-card-label">With repeat cycles (the norm)</div>
-        <div class="cost-card-num">£100,000+</div>
-        <div class="cost-card-sub">per person · compounding · ongoing</div>
-      </div>
-    </div>
-
-    <!-- The Ripple SVG -->
-    <div class="ripple-canvas fd">
-      <svg class="ripple-svg" viewBox="0 0 1100 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Ripple Effect diagram showing 5 concentric rings of impact radiating from one person with ADHD and addiction">
-
-        <defs>
-          <!-- Glow filter for brain -->
-          <filter id="brain-glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-
-          <!-- Orange glow for rings -->
-          <filter id="ring-glow" x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-
-          <!-- Centre radial glow -->
-          <radialGradient id="centre-light" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#f26c0d" stop-opacity=".28"/>
-            <stop offset="100%" stop-color="#f26c0d" stop-opacity="0"/>
-          </radialGradient>
-
-          <!-- Ring gradient strokes -->
-          <linearGradient id="ring-grad-1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#f26c0d" stop-opacity=".9"/>
-            <stop offset="50%" stop-color="#ff8a1f" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#f26c0d" stop-opacity=".9"/>
-          </linearGradient>
-          <linearGradient id="ring-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#f26c0d" stop-opacity=".6"/>
-            <stop offset="50%" stop-color="#ff8a1f" stop-opacity=".75"/>
-            <stop offset="100%" stop-color="#f26c0d" stop-opacity=".6"/>
-          </linearGradient>
-          <linearGradient id="ring-grad-3" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#f26c0d" stop-opacity=".38"/>
-            <stop offset="50%" stop-color="#ff8a1f" stop-opacity=".52"/>
-            <stop offset="100%" stop-color="#f26c0d" stop-opacity=".38"/>
-          </linearGradient>
-          <linearGradient id="ring-grad-4" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#f26c0d" stop-opacity=".22"/>
-            <stop offset="50%" stop-color="#ff8a1f" stop-opacity=".32"/>
-            <stop offset="100%" stop-color="#f26c0d" stop-opacity=".22"/>
-          </linearGradient>
-          <linearGradient id="ring-grad-5" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#f26c0d" stop-opacity=".12"/>
-            <stop offset="50%" stop-color="#ff8a1f" stop-opacity=".18"/>
-            <stop offset="100%" stop-color="#f26c0d" stop-opacity=".12"/>
-          </linearGradient>
-
-          <!-- Clip path for label backgrounds -->
-          <filter id="label-blur">
-            <feGaussianBlur stdDeviation="12" result="blur"/>
-            <feComposite in="SourceGraphic" in2="blur"/>
-          </filter>
-        </defs>
-
-        <!-- Background centre glow -->
-        <ellipse cx="550" cy="360" rx="160" ry="100" fill="url(#centre-light)" opacity=".6"/>
-
-        <!-- ── RING 5: INTERGENERATIONAL (outermost) ── -->
-        <ellipse class="ring-5" cx="550" cy="360" rx="520" ry="310" fill="none" stroke="url(#ring-grad-5)" stroke-width=".6" filter="url(#ring-glow)"/>
-
-        <!-- ── RING 4: COMPOUNDING & SOCIETY ── -->
-        <ellipse class="ring-4" cx="550" cy="360" rx="420" ry="250" fill="none" stroke="url(#ring-grad-4)" stroke-width=".8"/>
-
-        <!-- ── RING 3: WIDER SERVICES ── -->
-        <ellipse class="ring-3" cx="550" cy="360" rx="318" ry="190" fill="none" stroke="url(#ring-grad-3)" stroke-width="1"/>
-
-        <!-- ── RING 2: WORK, SCHOOL & EMPLOYERS ── -->
-        <ellipse class="ring-2" cx="550" cy="360" rx="218" ry="130" fill="none" stroke="url(#ring-grad-2)" stroke-width="1.2"/>
-
-        <!-- ── RING 1: FAMILY (innermost) ── -->
-        <ellipse class="ring-1" cx="550" cy="360" rx="118" ry="72" fill="none" stroke="url(#ring-grad-1)" stroke-width="1.6"/>
-
-        <!-- ════════════════════════════════════════════
+<h2 class="section-title">One person.<br/><span>Every life around them.</span></h2>
+<p class="section-lede">When ADHD-driven addiction goes undiagnosed, the cost isn't contained to one person. It radiates outward — ring by ring — touching everyone around them, then everyone around them.</p>
+</div>
+<!-- Cost bookends -->
+<div class="cost-banner fd">
+<div class="cost-card primary">
+<div class="cost-card-label">Conservative cost to the state</div>
+<div class="cost-card-num">£40,070</div>
+<div class="cost-card-sub">per person · per year · one cycle</div>
+</div>
+<div class="cost-arrow">
+<div class="cost-arrow-line"></div>
+<div style="font-size:10px;color:var(--muted);margin-top:6px;">with repeat</div>
+</div>
+<div class="cost-card primary">
+<div class="cost-card-label">With repeat cycles (the norm)</div>
+<div class="cost-card-num">£100,000+</div>
+<div class="cost-card-sub">per person · compounding · ongoing</div>
+</div>
+</div>
+<!-- The Ripple SVG -->
+<div class="ripple-canvas fd">
+<svg aria-label="The Ripple Effect diagram showing 5 concentric rings of impact radiating from one person with ADHD and addiction" class="ripple-svg" role="img" viewbox="0 0 1100 720" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Glow filter for brain -->
+<filter height="160%" id="brain-glow" width="160%" x="-30%" y="-30%">
+<fegaussianblur result="coloredBlur" stddeviation="8"></fegaussianblur>
+<femerge><femergenode in="coloredBlur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<!-- Orange glow for rings -->
+<filter height="120%" id="ring-glow" width="120%" x="-10%" y="-10%">
+<fegaussianblur result="coloredBlur" stddeviation="3"></fegaussianblur>
+<femerge><femergenode in="coloredBlur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<!-- Centre radial glow -->
+<radialgradient cx="50%" cy="50%" id="centre-light" r="50%">
+<stop offset="0%" stop-color="#f26c0d" stop-opacity=".28"></stop>
+<stop offset="100%" stop-color="#f26c0d" stop-opacity="0"></stop>
+</radialgradient>
+<!-- Ring gradient strokes -->
+<lineargradient id="ring-grad-1" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#f26c0d" stop-opacity=".9"></stop>
+<stop offset="50%" stop-color="#ff8a1f" stop-opacity="1"></stop>
+<stop offset="100%" stop-color="#f26c0d" stop-opacity=".9"></stop>
+</lineargradient>
+<lineargradient id="ring-grad-2" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#f26c0d" stop-opacity=".6"></stop>
+<stop offset="50%" stop-color="#ff8a1f" stop-opacity=".75"></stop>
+<stop offset="100%" stop-color="#f26c0d" stop-opacity=".6"></stop>
+</lineargradient>
+<lineargradient id="ring-grad-3" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#f26c0d" stop-opacity=".38"></stop>
+<stop offset="50%" stop-color="#ff8a1f" stop-opacity=".52"></stop>
+<stop offset="100%" stop-color="#f26c0d" stop-opacity=".38"></stop>
+</lineargradient>
+<lineargradient id="ring-grad-4" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#f26c0d" stop-opacity=".22"></stop>
+<stop offset="50%" stop-color="#ff8a1f" stop-opacity=".32"></stop>
+<stop offset="100%" stop-color="#f26c0d" stop-opacity=".22"></stop>
+</lineargradient>
+<lineargradient id="ring-grad-5" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#f26c0d" stop-opacity=".12"></stop>
+<stop offset="50%" stop-color="#ff8a1f" stop-opacity=".18"></stop>
+<stop offset="100%" stop-color="#f26c0d" stop-opacity=".12"></stop>
+</lineargradient>
+<!-- Clip path for label backgrounds -->
+<filter id="label-blur">
+<fegaussianblur result="blur" stddeviation="12"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur"></fecomposite>
+</filter>
+</defs>
+<!-- Background centre glow -->
+<ellipse cx="550" cy="360" fill="url(#centre-light)" opacity=".6" rx="160" ry="100"></ellipse>
+<!-- ── RING 5: INTERGENERATIONAL (outermost) ── -->
+<ellipse class="ring-5" cx="550" cy="360" fill="none" filter="url(#ring-glow)" rx="520" ry="310" stroke="url(#ring-grad-5)" stroke-width=".6"></ellipse>
+<!-- ── RING 4: COMPOUNDING & SOCIETY ── -->
+<ellipse class="ring-4" cx="550" cy="360" fill="none" rx="420" ry="250" stroke="url(#ring-grad-4)" stroke-width=".8"></ellipse>
+<!-- ── RING 3: WIDER SERVICES ── -->
+<ellipse class="ring-3" cx="550" cy="360" fill="none" rx="318" ry="190" stroke="url(#ring-grad-3)" stroke-width="1"></ellipse>
+<!-- ── RING 2: WORK, SCHOOL & EMPLOYERS ── -->
+<ellipse class="ring-2" cx="550" cy="360" fill="none" rx="218" ry="130" stroke="url(#ring-grad-2)" stroke-width="1.2"></ellipse>
+<!-- ── RING 1: FAMILY (innermost) ── -->
+<ellipse class="ring-1" cx="550" cy="360" fill="none" rx="118" ry="72" stroke="url(#ring-grad-1)" stroke-width="1.6"></ellipse>
+<!-- ════════════════════════════════════════════
              CENTRE — The person
         ════════════════════════════════════════════ -->
-        <g class="brain-centre">
-          <circle cx="550" cy="360" r="28" fill="rgba(242,108,13,.15)" stroke="rgba(242,108,13,.6)" stroke-width="1.5"/>
-          <circle cx="550" cy="360" r="20" fill="rgba(242,108,13,.25)" stroke="rgba(242,108,13,.85)" stroke-width="1"/>
-          <image href="assets/otos-brain-icon.png" x="535" y="347" width="30" height="24" filter="url(#brain-glow)" opacity=".95"/>
-        </g>
-        <!-- Centre label -->
-        <text x="550" y="403" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="900" letter-spacing=".14em" fill="#f26c0d" text-transform="uppercase">ONE PERSON</text>
-
-        <!-- ════════════════════════════════════════════
+<g class="brain-centre">
+<circle cx="550" cy="360" fill="rgba(242,108,13,.15)" r="28" stroke="rgba(242,108,13,.6)" stroke-width="1.5"></circle>
+<circle cx="550" cy="360" fill="rgba(242,108,13,.25)" r="20" stroke="rgba(242,108,13,.85)" stroke-width="1"></circle>
+<image filter="url(#brain-glow)" height="24" href="assets/otos-brain-icon.png" opacity=".95" width="30" x="535" y="347"/>
+</g>
+<!-- Centre label -->
+<text fill="#f26c0d" font-family="Inter, sans-serif" font-size="10" font-weight="900" letter-spacing=".14em" text-anchor="middle" text-transform="uppercase" x="550" y="403">ONE PERSON</text>
+<!-- ════════════════════════════════════════════
              RING 1: FAMILY
         ════════════════════════════════════════════ -->
-
-        <!-- Ring 1 label (top) -->
-        <rect x="480" y="273" width="140" height="30" rx="8" fill="rgba(8,10,15,.85)" stroke="rgba(242,108,13,.45)" stroke-width=".8"/>
-        <text x="550" y="284" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="900" letter-spacing=".16em" fill="#ff8a1f">RING 1: FAMILY</text>
-        <text x="550" y="296" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="600" fill="#aeb4c0">The closest. The first to feel it.</text>
-
-        <!-- Node: Partner/Spouse (left) -->
-        <circle cx="432" cy="360" r="4.5" fill="#f26c0d" opacity=".9"/>
-        <rect x="330" y="347" width="94" height="28" rx="6" fill="rgba(8,10,15,.82)" stroke="rgba(255,255,255,.1)" stroke-width=".6"/>
-        <text x="377" y="358" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Partner / Spouse</text>
-        <text x="377" y="369" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">stress · lost income</text>
-        <line x1="432" y1="360" x2="424" y2="360" stroke="rgba(242,108,13,.45)" stroke-width=".7"/>
-
-        <!-- Node: Children (top-left) -->
-        <circle cx="494" cy="304" r="4.5" fill="#f26c0d" opacity=".9"/>
-        <rect x="418" y="255" width="80" height="28" rx="6" fill="rgba(8,10,15,.82)" stroke="rgba(255,255,255,.1)" stroke-width=".6"/>
-        <text x="458" y="266" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Children</text>
-        <text x="458" y="277" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">school · instability</text>
-        <line x1="494" y1="304" x2="472" y2="279" stroke="rgba(242,108,13,.45)" stroke-width=".7"/>
-
-        <!-- Node: Parents/Siblings (top-right) -->
-        <circle cx="606" cy="304" r="4.5" fill="#f26c0d" opacity=".9"/>
-        <rect x="608" y="255" width="100" height="28" rx="6" fill="rgba(8,10,15,.82)" stroke="rgba(255,255,255,.1)" stroke-width=".6"/>
-        <text x="658" y="266" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Parents / Siblings</text>
-        <text x="658" y="277" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">carer burden · worry</text>
-        <line x1="606" y1="304" x2="624" y2="280" stroke="rgba(242,108,13,.45)" stroke-width=".7"/>
-
-        <!-- Node: Debt/Housing (right) -->
-        <circle cx="668" cy="360" r="4.5" fill="#f26c0d" opacity=".9"/>
-        <rect x="674" y="347" width="104" height="28" rx="6" fill="rgba(8,10,15,.82)" stroke="rgba(255,255,255,.1)" stroke-width=".6"/>
-        <text x="726" y="358" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Debt / Housing</text>
-        <text x="726" y="369" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">arrears · financial strain</text>
-        <line x1="668" y1="360" x2="678" y2="360" stroke="rgba(242,108,13,.45)" stroke-width=".7"/>
-
-        <!-- ════════════════════════════════════════════
+<!-- Ring 1 label (top) -->
+<rect fill="rgba(8,10,15,.85)" height="30" rx="8" stroke="rgba(242,108,13,.45)" stroke-width=".8" width="140" x="480" y="273"></rect>
+<text fill="#ff8a1f" font-family="Inter, sans-serif" font-size="8.5" font-weight="900" letter-spacing=".16em" text-anchor="middle" x="550" y="284">RING 1: FAMILY</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="8" font-weight="600" text-anchor="middle" x="550" y="296">The closest. The first to feel it.</text>
+<!-- Node: Partner/Spouse (left) -->
+<circle cx="432" cy="360" fill="#f26c0d" opacity=".9" r="4.5"></circle>
+<rect fill="rgba(8,10,15,.82)" height="28" rx="6" stroke="rgba(255,255,255,.1)" stroke-width=".6" width="94" x="330" y="347"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="377" y="358">Partner / Spouse</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="377" y="369">stress · lost income</text>
+<line stroke="rgba(242,108,13,.45)" stroke-width=".7" x1="432" x2="424" y1="360" y2="360"></line>
+<!-- Node: Children (top-left) -->
+<circle cx="494" cy="304" fill="#f26c0d" opacity=".9" r="4.5"></circle>
+<rect fill="rgba(8,10,15,.82)" height="28" rx="6" stroke="rgba(255,255,255,.1)" stroke-width=".6" width="80" x="418" y="255"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="458" y="266">Children</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="458" y="277">school · instability</text>
+<line stroke="rgba(242,108,13,.45)" stroke-width=".7" x1="494" x2="472" y1="304" y2="279"></line>
+<!-- Node: Parents/Siblings (top-right) -->
+<circle cx="606" cy="304" fill="#f26c0d" opacity=".9" r="4.5"></circle>
+<rect fill="rgba(8,10,15,.82)" height="28" rx="6" stroke="rgba(255,255,255,.1)" stroke-width=".6" width="100" x="608" y="255"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="658" y="266">Parents / Siblings</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="658" y="277">carer burden · worry</text>
+<line stroke="rgba(242,108,13,.45)" stroke-width=".7" x1="606" x2="624" y1="304" y2="280"></line>
+<!-- Node: Debt/Housing (right) -->
+<circle cx="668" cy="360" fill="#f26c0d" opacity=".9" r="4.5"></circle>
+<rect fill="rgba(8,10,15,.82)" height="28" rx="6" stroke="rgba(255,255,255,.1)" stroke-width=".6" width="104" x="674" y="347"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="726" y="358">Debt / Housing</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="726" y="369">arrears · financial strain</text>
+<line stroke="rgba(242,108,13,.45)" stroke-width=".7" x1="668" x2="678" y1="360" y2="360"></line>
+<!-- ════════════════════════════════════════════
              RING 2: WORK, SCHOOL & EMPLOYERS
         ════════════════════════════════════════════ -->
-
-        <!-- Ring 2 label (top) -->
-        <rect x="440" y="218" width="220" height="30" rx="8" fill="rgba(8,10,15,.85)" stroke="rgba(242,108,13,.32)" stroke-width=".7"/>
-        <text x="550" y="229" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".14em" fill="#ff8a1f">RING 2: WORK &amp; EMPLOYERS</text>
-        <text x="550" y="241" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">Daily functioning. Productivity. Income.</text>
-
-        <!-- Node: Absenteeism (left) -->
-        <circle cx="332" cy="360" r="4" fill="#ff8a1f" opacity=".8"/>
-        <rect x="222" y="347" width="104" height="28" rx="6" fill="rgba(8,10,15,.8)" stroke="rgba(255,255,255,.08)" stroke-width=".6"/>
-        <text x="274" y="358" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Absenteeism</text>
-        <text x="274" y="369" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">missed shifts</text>
-        <line x1="332" y1="360" x2="326" y2="360" stroke="rgba(242,108,13,.35)" stroke-width=".7"/>
-
-        <!-- Node: Presenteeism -->
-        <circle cx="370" cy="302" r="4" fill="#ff8a1f" opacity=".8"/>
-        <rect x="280" y="268" width="96" height="28" rx="6" fill="rgba(8,10,15,.8)" stroke="rgba(255,255,255,.08)" stroke-width=".6"/>
-        <text x="328" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Presenteeism</text>
-        <text x="328" y="291" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">low focus · low output</text>
-        <line x1="370" y1="302" x2="352" y2="286" stroke="rgba(242,108,13,.35)" stroke-width=".7"/>
-
-        <!-- Node: Reduced Productivity (top, on ring) -->
-        <circle cx="550" cy="230" r="4" fill="#ff8a1f" opacity=".8"/>
-
-        <!-- Node: School Strain -->
-        <circle cx="730" cy="302" r="4" fill="#ff8a1f" opacity=".8"/>
-        <rect x="732" y="268" width="96" height="28" rx="6" fill="rgba(8,10,15,.8)" stroke="rgba(255,255,255,.08)" stroke-width=".6"/>
-        <text x="780" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">School Strain</text>
-        <text x="780" y="291" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">extra support costs</text>
-        <line x1="730" y1="302" x2="748" y2="286" stroke="rgba(242,108,13,.35)" stroke-width=".7"/>
-
-        <!-- Node: Employer Turnover (right) -->
-        <circle cx="768" cy="360" r="4" fill="#ff8a1f" opacity=".8"/>
-        <rect x="774" y="347" width="120" height="28" rx="6" fill="rgba(8,10,15,.8)" stroke="rgba(255,255,255,.08)" stroke-width=".6"/>
-        <text x="834" y="358" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Employer Turnover</text>
-        <text x="834" y="369" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">recruitment · management</text>
-        <line x1="768" y1="360" x2="794" y2="360" stroke="rgba(242,108,13,.35)" stroke-width=".7"/>
-
-        <!-- ════════════════════════════════════════════
+<!-- Ring 2 label (top) -->
+<rect fill="rgba(8,10,15,.85)" height="30" rx="8" stroke="rgba(242,108,13,.32)" stroke-width=".7" width="220" x="440" y="218"></rect>
+<text fill="#ff8a1f" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".14em" text-anchor="middle" x="550" y="229">RING 2: WORK &amp; EMPLOYERS</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="550" y="241">Daily functioning. Productivity. Income.</text>
+<!-- Node: Absenteeism (left) -->
+<circle cx="332" cy="360" fill="#ff8a1f" opacity=".8" r="4"></circle>
+<rect fill="rgba(8,10,15,.8)" height="28" rx="6" stroke="rgba(255,255,255,.08)" stroke-width=".6" width="104" x="222" y="347"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="274" y="358">Absenteeism</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="274" y="369">missed shifts</text>
+<line stroke="rgba(242,108,13,.35)" stroke-width=".7" x1="332" x2="326" y1="360" y2="360"></line>
+<!-- Node: Presenteeism -->
+<circle cx="370" cy="302" fill="#ff8a1f" opacity=".8" r="4"></circle>
+<rect fill="rgba(8,10,15,.8)" height="28" rx="6" stroke="rgba(255,255,255,.08)" stroke-width=".6" width="96" x="280" y="268"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="328" y="280">Presenteeism</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="328" y="291">low focus · low output</text>
+<line stroke="rgba(242,108,13,.35)" stroke-width=".7" x1="370" x2="352" y1="302" y2="286"></line>
+<!-- Node: Reduced Productivity (top, on ring) -->
+<circle cx="550" cy="230" fill="#ff8a1f" opacity=".8" r="4"></circle>
+<!-- Node: School Strain -->
+<circle cx="730" cy="302" fill="#ff8a1f" opacity=".8" r="4"></circle>
+<rect fill="rgba(8,10,15,.8)" height="28" rx="6" stroke="rgba(255,255,255,.08)" stroke-width=".6" width="96" x="732" y="268"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="780" y="280">School Strain</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="780" y="291">extra support costs</text>
+<line stroke="rgba(242,108,13,.35)" stroke-width=".7" x1="730" x2="748" y1="302" y2="286"></line>
+<!-- Node: Employer Turnover (right) -->
+<circle cx="768" cy="360" fill="#ff8a1f" opacity=".8" r="4"></circle>
+<rect fill="rgba(8,10,15,.8)" height="28" rx="6" stroke="rgba(255,255,255,.08)" stroke-width=".6" width="120" x="774" y="347"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="834" y="358">Employer Turnover</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="834" y="369">recruitment · management</text>
+<line stroke="rgba(242,108,13,.35)" stroke-width=".7" x1="768" x2="794" y1="360" y2="360"></line>
+<!-- ════════════════════════════════════════════
              RING 3: WIDER SERVICES & SOCIETY
         ════════════════════════════════════════════ -->
-
-        <!-- Ring 3 label (top) -->
-        <rect x="420" y="157" width="260" height="30" rx="8" fill="rgba(8,10,15,.85)" stroke="rgba(242,108,13,.22)" stroke-width=".6"/>
-        <text x="550" y="168" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".12em" fill="#ff8a1f">RING 3: WIDER SERVICES</text>
-        <text x="550" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">Increasing demand. System pressure. Public cost.</text>
-
-        <!-- Node: GP/Primary Care (left) -->
-        <circle cx="232" cy="360" r="3.5" fill="#fbf7ee" opacity=".7"/>
-        <rect x="118" y="347" width="108" height="28" rx="6" fill="rgba(8,10,15,.78)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
-        <text x="172" y="358" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">GP &amp; Primary Care</text>
-        <text x="172" y="369" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">repeat appointments</text>
-        <line x1="232" y1="360" x2="226" y2="360" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
-
-        <!-- Node: A&E/Ambulance -->
-        <circle cx="257" cy="290" r="3.5" fill="#fbf7ee" opacity=".7"/>
-        <rect x="130" y="258" width="118" height="28" rx="6" fill="rgba(8,10,15,.78)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
-        <text x="189" y="269" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">A&amp;E / Ambulance</text>
-        <text x="189" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">crisis call-outs</text>
-        <line x1="257" y1="290" x2="248" y2="280" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
-
-        <!-- Node: Mental Health -->
-        <circle cx="307" cy="228" r="3.5" fill="#fbf7ee" opacity=".7"/>
-        <rect x="210" y="198" width="96" height="28" rx="6" fill="rgba(8,10,15,.78)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
-        <text x="258" y="209" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Mental Health</text>
-        <text x="258" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">CMHT · crisis teams</text>
-        <line x1="307" y1="228" x2="290" y2="220" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
-
-        <!-- Node: Addiction Treatment (top centre) -->
-        <circle cx="550" cy="170" r="3.5" fill="#fbf7ee" opacity=".7"/>
-        <rect x="460" y="138" width="180" height="28" rx="6" fill="rgba(8,10,15,.78)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
-        <text x="550" y="149" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Addiction Treatment</text>
-        <text x="550" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">detox · rehab · relapse cycles</text>
-        <line x1="550" y1="170" x2="550" y2="166" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
-
-        <!-- Node: Police -->
-        <circle cx="793" cy="228" r="3.5" fill="#fbf7ee" opacity=".7"/>
-        <rect x="794" y="198" width="72" height="28" rx="6" fill="rgba(8,10,15,.78)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
-        <text x="830" y="209" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Police</text>
-        <text x="830" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">call-outs · custody</text>
-        <line x1="793" y1="228" x2="810" y2="216" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
-
-        <!-- Node: Courts/Probation -->
-        <circle cx="843" cy="290" r="3.5" fill="#fbf7ee" opacity=".7"/>
-        <rect x="852" y="268" width="108" height="28" rx="6" fill="rgba(8,10,15,.78)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
-        <text x="906" y="279" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Courts / Probation</text>
-        <text x="906" y="290" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">prosecution · supervision</text>
-        <line x1="843" y1="290" x2="852" y2="280" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
-
-        <!-- Node: Benefits/Social Care (right) -->
-        <circle cx="868" cy="360" r="3.5" fill="#fbf7ee" opacity=".7"/>
-        <rect x="876" y="347" width="118" height="28" rx="6" fill="rgba(8,10,15,.78)" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
-        <text x="935" y="358" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#fbf7ee">Benefits / Social Care</text>
-        <text x="935" y="369" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">DWP · housing support</text>
-        <line x1="868" y1="360" x2="876" y2="360" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
-
-        <!-- ════════════════════════════════════════════
+<!-- Ring 3 label (top) -->
+<rect fill="rgba(8,10,15,.85)" height="30" rx="8" stroke="rgba(242,108,13,.22)" stroke-width=".6" width="260" x="420" y="157"></rect>
+<text fill="#ff8a1f" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".12em" text-anchor="middle" x="550" y="168">RING 3: WIDER SERVICES</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="550" y="180">Increasing demand. System pressure. Public cost.</text>
+<!-- Node: GP/Primary Care (left) -->
+<circle cx="232" cy="360" fill="#fbf7ee" opacity=".7" r="3.5"></circle>
+<rect fill="rgba(8,10,15,.78)" height="28" rx="6" stroke="rgba(255,255,255,.07)" stroke-width=".5" width="108" x="118" y="347"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="172" y="358">GP &amp; Primary Care</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="172" y="369">repeat appointments</text>
+<line stroke="rgba(255,255,255,.25)" stroke-width=".7" x1="232" x2="226" y1="360" y2="360"></line>
+<!-- Node: A&E/Ambulance -->
+<circle cx="257" cy="290" fill="#fbf7ee" opacity=".7" r="3.5"></circle>
+<rect fill="rgba(8,10,15,.78)" height="28" rx="6" stroke="rgba(255,255,255,.07)" stroke-width=".5" width="118" x="130" y="258"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="189" y="269">A&amp;E / Ambulance</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="189" y="280">crisis call-outs</text>
+<line stroke="rgba(255,255,255,.25)" stroke-width=".7" x1="257" x2="248" y1="290" y2="280"></line>
+<!-- Node: Mental Health -->
+<circle cx="307" cy="228" fill="#fbf7ee" opacity=".7" r="3.5"></circle>
+<rect fill="rgba(8,10,15,.78)" height="28" rx="6" stroke="rgba(255,255,255,.07)" stroke-width=".5" width="96" x="210" y="198"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="258" y="209">Mental Health</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="258" y="220">CMHT · crisis teams</text>
+<line stroke="rgba(255,255,255,.25)" stroke-width=".7" x1="307" x2="290" y1="228" y2="220"></line>
+<!-- Node: Addiction Treatment (top centre) -->
+<circle cx="550" cy="170" fill="#fbf7ee" opacity=".7" r="3.5"></circle>
+<rect fill="rgba(8,10,15,.78)" height="28" rx="6" stroke="rgba(255,255,255,.07)" stroke-width=".5" width="180" x="460" y="138"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="550" y="149">Addiction Treatment</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="550" y="160">detox · rehab · relapse cycles</text>
+<line stroke="rgba(255,255,255,.25)" stroke-width=".7" x1="550" x2="550" y1="170" y2="166"></line>
+<!-- Node: Police -->
+<circle cx="793" cy="228" fill="#fbf7ee" opacity=".7" r="3.5"></circle>
+<rect fill="rgba(8,10,15,.78)" height="28" rx="6" stroke="rgba(255,255,255,.07)" stroke-width=".5" width="72" x="794" y="198"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="830" y="209">Police</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="830" y="220">call-outs · custody</text>
+<line stroke="rgba(255,255,255,.25)" stroke-width=".7" x1="793" x2="810" y1="228" y2="216"></line>
+<!-- Node: Courts/Probation -->
+<circle cx="843" cy="290" fill="#fbf7ee" opacity=".7" r="3.5"></circle>
+<rect fill="rgba(8,10,15,.78)" height="28" rx="6" stroke="rgba(255,255,255,.07)" stroke-width=".5" width="108" x="852" y="268"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="906" y="279">Courts / Probation</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="906" y="290">prosecution · supervision</text>
+<line stroke="rgba(255,255,255,.25)" stroke-width=".7" x1="843" x2="852" y1="290" y2="280"></line>
+<!-- Node: Benefits/Social Care (right) -->
+<circle cx="868" cy="360" fill="#fbf7ee" opacity=".7" r="3.5"></circle>
+<rect fill="rgba(8,10,15,.78)" height="28" rx="6" stroke="rgba(255,255,255,.07)" stroke-width=".5" width="118" x="876" y="347"></rect>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="9" font-weight="800" text-anchor="middle" x="935" y="358">Benefits / Social Care</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="935" y="369">DWP · housing support</text>
+<line stroke="rgba(255,255,255,.25)" stroke-width=".7" x1="868" x2="876" y1="360" y2="360"></line>
+<!-- ════════════════════════════════════════════
              RING 4: COMPOUNDING & ONGOING
         ════════════════════════════════════════════ -->
-
-        <!-- Ring 4 label (bottom) -->
-        <rect x="390" y="580" width="320" height="30" rx="8" fill="rgba(8,10,15,.85)" stroke="rgba(242,108,13,.16)" stroke-width=".5"/>
-        <text x="550" y="591" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".12em" fill="#ff8a1f">RING 4: COMPOUNDING EFFECTS</text>
-        <text x="550" y="603" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">Lost potential. Cycle repeats. Costs multiply.</text>
-
-        <!-- Bottom compounding nodes -->
-        <circle cx="332" cy="540" r="3.5" fill="#aeb4c0" opacity=".65"/>
-        <circle cx="440" cy="580" r="3.5" fill="#aeb4c0" opacity=".65"/>
-        <circle cx="550" cy="610" r="3.5" fill="#aeb4c0" opacity=".65"/>
-        <circle cx="660" cy="580" r="3.5" fill="#aeb4c0" opacity=".65"/>
-        <circle cx="768" cy="540" r="3.5" fill="#aeb4c0" opacity=".65"/>
-
-        <text x="332" y="533" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" fill="#fbf7ee" opacity=".75">Lost Potential</text>
-        <text x="440" y="574" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" fill="#fbf7ee" opacity=".75">Economic Drag</text>
-        <text x="550" y="626" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" fill="#fbf7ee" opacity=".75">Community Impact</text>
-        <text x="660" y="574" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" fill="#fbf7ee" opacity=".75">Cycle Repeats</text>
-        <text x="768" y="533" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" fill="#fbf7ee" opacity=".75">Wider Society</text>
-
-        <!-- ════════════════════════════════════════════
+<!-- Ring 4 label (bottom) -->
+<rect fill="rgba(8,10,15,.85)" height="30" rx="8" stroke="rgba(242,108,13,.16)" stroke-width=".5" width="320" x="390" y="580"></rect>
+<text fill="#ff8a1f" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".12em" text-anchor="middle" x="550" y="591">RING 4: COMPOUNDING EFFECTS</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="550" y="603">Lost potential. Cycle repeats. Costs multiply.</text>
+<!-- Bottom compounding nodes -->
+<circle cx="332" cy="540" fill="#aeb4c0" opacity=".65" r="3.5"></circle>
+<circle cx="440" cy="580" fill="#aeb4c0" opacity=".65" r="3.5"></circle>
+<circle cx="550" cy="610" fill="#aeb4c0" opacity=".65" r="3.5"></circle>
+<circle cx="660" cy="580" fill="#aeb4c0" opacity=".65" r="3.5"></circle>
+<circle cx="768" cy="540" fill="#aeb4c0" opacity=".65" r="3.5"></circle>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" opacity=".75" text-anchor="middle" x="332" y="533">Lost Potential</text>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" opacity=".75" text-anchor="middle" x="440" y="574">Economic Drag</text>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" opacity=".75" text-anchor="middle" x="550" y="626">Community Impact</text>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" opacity=".75" text-anchor="middle" x="660" y="574">Cycle Repeats</text>
+<text fill="#fbf7ee" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" opacity=".75" text-anchor="middle" x="768" y="533">Wider Society</text>
+<!-- ════════════════════════════════════════════
              RING 5: INTERGENERATIONAL
         ════════════════════════════════════════════ -->
-
-        <!-- Ring 5 label (top right) -->
-        <rect x="760" y="72" width="220" height="42" rx="8" fill="rgba(242,108,13,.07)" stroke="rgba(242,108,13,.2)" stroke-width=".7"/>
-        <text x="870" y="85" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".1em" fill="#ff8a1f">RING 5: INHERITED</text>
-        <text x="870" y="97" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">ADHD is heritable. When it passes</text>
-        <text x="870" y="107" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">to the next generation, the waveform doubles.</text>
-
-        <!-- Connector from ring 5 label to outer ring -->
-        <line x1="870" y1="114" x2="870" y2="130" stroke="rgba(242,108,13,.25)" stroke-width=".6" stroke-dasharray="3,3"/>
-
-        <!-- Top left cost note -->
-        <rect x="120" y="72" width="176" height="42" rx="8" fill="rgba(8,10,15,.8)" stroke="rgba(255,255,255,.08)" stroke-width=".6"/>
-        <text x="208" y="86" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".1em" fill="#aeb4c0">BEFORE OTOS</text>
-        <text x="208" y="99" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="1000" letter-spacing="-.04em" fill="#ff8a1f">No intervention</text>
-        <text x="208" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" fill="#aeb4c0">all five rings keep expanding</text>
-
-        <!-- Bottom note: OTOS interrupts -->
-        <rect x="390" y="650" width="320" height="38" rx="8" fill="rgba(242,108,13,.1)" stroke="rgba(242,108,13,.35)" stroke-width=".8"/>
-        <text x="550" y="664" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="900" letter-spacing=".08em" fill="#ff8a1f">OTOS CONTINUITY INTERRUPTS THIS CYCLE</text>
-        <text x="550" y="678" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="600" fill="#aeb4c0">A continuity thread between services — before the ripple reaches ring 3.</text>
-
-      </svg>
-    </div>
-
-    <!-- Cost accumulator strip -->
-    <div class="cost-accumulator fd">
-      <div class="cost-step">
-        <div class="cost-step-plus">+</div>
-        <div class="cost-step-ring">Ring 1</div>
-        <div class="cost-step-label">Family impact</div>
-        <div class="cost-step-amount">~£3,200</div>
-        <div class="cost-step-label" style="margin-top:4px;font-size:10px">lost income · carer time</div>
-      </div>
-      <div class="cost-step">
-        <div class="cost-step-plus">+</div>
-        <div class="cost-step-ring">Ring 2</div>
-        <div class="cost-step-label">Work & employers</div>
-        <div class="cost-step-amount">~£6,800</div>
-        <div class="cost-step-label" style="margin-top:4px;font-size:10px">productivity · recruitment</div>
-      </div>
-      <div class="cost-step">
-        <div class="cost-step-plus">+</div>
-        <div class="cost-step-ring">Ring 3</div>
-        <div class="cost-step-label">NHS & wider services</div>
-        <div class="cost-step-amount">~£18,500</div>
-        <div class="cost-step-label" style="margin-top:4px;font-size:10px">A&amp;E · treatment · courts</div>
-      </div>
-      <div class="cost-step">
-        <div class="cost-step-plus">+</div>
-        <div class="cost-step-ring">Ring 4</div>
-        <div class="cost-step-label">Compounding effects</div>
-        <div class="cost-step-amount">~£11,570</div>
-        <div class="cost-step-label" style="margin-top:4px;font-size:10px">benefits · social care</div>
-      </div>
-      <div class="cost-step" style="background:rgba(242,108,13,.08);border-color:rgba(242,108,13,.3)">
-        <div class="cost-step-ring">Total</div>
-        <div class="cost-step-label">Per person · year one</div>
-        <div class="cost-step-amount" style="color:#ff8a1f;font-size:clamp(22px,2.8vw,32px)">£40,070</div>
-        <div class="cost-step-label" style="margin-top:4px;font-size:10px;color:var(--orange-2)">×3 with repeat cycles</div>
-      </div>
-    </div>
-
-    <!-- Inherited doubling callout -->
-    <div class="inherited-callout fd">
-      <div class="inherited-callout-title">ADHD is heritable — the waveform doubles.</div>
-      <div class="inherited-callout-body">When one person with untreated ADHD has children, the probability of ADHD in those children is 40–60%. Each new diagnosis untreated restarts the entire ripple. The cost doesn't repeat — it compounds across generations.</div>
-    </div>
-
-    <p class="ripple-footnote fd">Figures are indicative estimates for illustration. Real per-person costs vary. <strong>OTOS Continuity interrupts the cycle before ring 3.</strong></p>
-
-  </div>
+<!-- Ring 5 label (top right) -->
+<rect fill="rgba(242,108,13,.07)" height="42" rx="8" stroke="rgba(242,108,13,.2)" stroke-width=".7" width="220" x="760" y="72"></rect>
+<text fill="#ff8a1f" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".1em" text-anchor="middle" x="870" y="85">RING 5: INHERITED</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="870" y="97">ADHD is heritable. When it passes</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="870" y="107">to the next generation, the waveform doubles.</text>
+<!-- Connector from ring 5 label to outer ring -->
+<line stroke="rgba(242,108,13,.25)" stroke-dasharray="3,3" stroke-width=".6" x1="870" x2="870" y1="114" y2="130"></line>
+<!-- Top left cost note -->
+<rect fill="rgba(8,10,15,.8)" height="42" rx="8" stroke="rgba(255,255,255,.08)" stroke-width=".6" width="176" x="120" y="72"></rect>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="8" font-weight="900" letter-spacing=".1em" text-anchor="middle" x="208" y="86">BEFORE OTOS</text>
+<text fill="#ff8a1f" font-family="Inter, sans-serif" font-size="11" font-weight="1000" letter-spacing="-.04em" text-anchor="middle" x="208" y="99">No intervention</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="7.5" font-weight="600" text-anchor="middle" x="208" y="110">all five rings keep expanding</text>
+<!-- Bottom note: OTOS interrupts -->
+<rect fill="rgba(242,108,13,.1)" height="38" rx="8" stroke="rgba(242,108,13,.35)" stroke-width=".8" width="320" x="390" y="650"></rect>
+<text fill="#ff8a1f" font-family="Inter, sans-serif" font-size="9" font-weight="900" letter-spacing=".08em" text-anchor="middle" x="550" y="664">OTOS CONTINUITY INTERRUPTS THIS CYCLE</text>
+<text fill="#aeb4c0" font-family="Inter, sans-serif" font-size="8" font-weight="600" text-anchor="middle" x="550" y="678">A continuity thread between services — before the ripple reaches ring 3.</text>
+</svg>
+</div>
+<!-- Cost accumulator strip -->
+<div class="cost-accumulator fd">
+<div class="cost-step">
+<div class="cost-step-plus">+</div>
+<div class="cost-step-ring">Ring 1</div>
+<div class="cost-step-label">Family impact</div>
+<div class="cost-step-amount">~£3,200</div>
+<div class="cost-step-label" style="margin-top:4px;font-size:10px">lost income · carer time</div>
+</div>
+<div class="cost-step">
+<div class="cost-step-plus">+</div>
+<div class="cost-step-ring">Ring 2</div>
+<div class="cost-step-label">Work &amp; employers</div>
+<div class="cost-step-amount">~£6,800</div>
+<div class="cost-step-label" style="margin-top:4px;font-size:10px">productivity · recruitment</div>
+</div>
+<div class="cost-step">
+<div class="cost-step-plus">+</div>
+<div class="cost-step-ring">Ring 3</div>
+<div class="cost-step-label">NHS &amp; wider services</div>
+<div class="cost-step-amount">~£18,500</div>
+<div class="cost-step-label" style="margin-top:4px;font-size:10px">A&amp;E · treatment · courts</div>
+</div>
+<div class="cost-step">
+<div class="cost-step-plus">+</div>
+<div class="cost-step-ring">Ring 4</div>
+<div class="cost-step-label">Compounding effects</div>
+<div class="cost-step-amount">~£11,570</div>
+<div class="cost-step-label" style="margin-top:4px;font-size:10px">benefits · social care</div>
+</div>
+<div class="cost-step" style="background:rgba(242,108,13,.08);border-color:rgba(242,108,13,.3)">
+<div class="cost-step-ring">Total</div>
+<div class="cost-step-label">Per person · year one</div>
+<div class="cost-step-amount" style="color:#ff8a1f;font-size:clamp(22px,2.8vw,32px)">£40,070</div>
+<div class="cost-step-label" style="margin-top:4px;font-size:10px;color:var(--orange-2)">×3 with repeat cycles</div>
+</div>
+</div>
+<!-- Inherited doubling callout -->
+<div class="inherited-callout fd">
+<div class="inherited-callout-title">ADHD is heritable — the waveform doubles.</div>
+<div class="inherited-callout-body">When one person with untreated ADHD has children, the probability of ADHD in those children is 40–60%. Each new diagnosis untreated restarts the entire ripple. The cost doesn't repeat — it compounds across generations.</div>
+</div>
+<p class="ripple-footnote fd">Figures are indicative estimates for illustration. Real per-person costs vary. <strong>OTOS Continuity interrupts the cycle before ring 3.</strong></p>
+</div>
 </section>
-
 <script>
   // Only animate if user has scrolled past the fold (deferred animation)
   // First make sure everything is visible, then add animation class
@@ -837,6 +785,5 @@
 
   if (steps.length) stepObs.observe(steps[0]);
 </script>
-
 </body>
 </html>
