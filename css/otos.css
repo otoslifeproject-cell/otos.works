@@ -381,3 +381,182 @@ p{margin-top:0;}
   .hero h1{font-size:min(var(--hero-title-size),104px);}
   .hero.hero--title-large h1{font-size:min(var(--hero-title-size),112px);}
 }
+
+/* ============================================================
+   SYSTEM MOTION + GLASS PANE CORRECTION v2
+   Purpose:
+   - Hero itself stays static while the page below scrolls over it.
+   - Final three-pane route block keeps the image plane, but restores
+     warm glassmorphic cards instead of a black slab.
+   - Evidence proof windows get Jump-style bold numeric motion.
+   ============================================================ */
+
+@media (min-width:901px) and (prefers-reduced-motion:no-preference){
+  .hero{
+    position:sticky;
+    top:0;
+    z-index:0;
+    min-height:100svh;
+    will-change:transform;
+  }
+  .page-shell{
+    position:relative;
+    z-index:12;
+    margin-top:0;
+    box-shadow:0 -52px 110px rgba(0,0,0,.30);
+  }
+  .hero-bg,
+  .hero-image{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    background-attachment:fixed;
+  }
+  .hero-image{
+    object-fit:cover;
+    object-position:var(--hero-pos);
+  }
+}
+
+/* Mobile fallback: avoid fixed/black issues on Safari and small screens. */
+@media (max-width:900px), (prefers-reduced-motion:reduce){
+  .hero{position:relative;top:auto;z-index:1;}
+  .hero-bg,.hero-image{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;}
+}
+
+/* Softer global hero treatment so image content remains visible. */
+.hero{
+  --hero-overlay:linear-gradient(90deg,rgba(7,9,13,.70),rgba(7,9,13,.47) 42%,rgba(7,9,13,.18) 72%,rgba(7,9,13,.04)),linear-gradient(0deg,rgba(7,9,13,.64),rgba(7,9,13,.14) 44%,rgba(7,9,13,0) 78%);
+}
+.hero--overlay-strong{
+  --hero-overlay:linear-gradient(90deg,rgba(7,9,13,.78),rgba(7,9,13,.55) 42%,rgba(7,9,13,.22) 74%,rgba(7,9,13,.06)),linear-gradient(0deg,rgba(7,9,13,.70),rgba(7,9,13,.17) 42%,rgba(7,9,13,0) 78%);
+}
+.hero--overlay-balanced{
+  --hero-overlay:linear-gradient(90deg,rgba(7,9,13,.66),rgba(7,9,13,.44) 42%,rgba(7,9,13,.14) 74%,rgba(7,9,13,.03)),linear-gradient(0deg,rgba(7,9,13,.60),rgba(7,9,13,.12) 42%,rgba(7,9,13,0) 78%);
+}
+
+/* Glassmorphic image-backed pane system. Replaces the accidental black slab. */
+.section.final .route-list{
+  background:linear-gradient(135deg,rgba(255,253,248,.34),rgba(255,244,226,.18));
+  border:1px solid rgba(255,255,255,.52);
+  box-shadow:0 28px 88px rgba(65,42,22,.16), inset 0 1px 0 rgba(255,255,255,.56);
+  backdrop-filter:blur(20px) saturate(1.08);
+  -webkit-backdrop-filter:blur(20px) saturate(1.08);
+}
+.section.final .route-list::before{
+  opacity:.82;
+  filter:saturate(.96) contrast(1.04) brightness(1.02);
+}
+.section.final .route-list::after{
+  background:
+    linear-gradient(90deg,rgba(245,239,226,.54),rgba(245,239,226,.22) 48%,rgba(245,239,226,.10)),
+    radial-gradient(circle at 86% 86%,rgba(232,102,22,.22),rgba(232,102,22,0) 43%),
+    radial-gradient(circle at 10% 0%,rgba(255,255,255,.46),rgba(255,255,255,0) 42%);
+}
+.section.final .route{
+  background:linear-gradient(180deg,rgba(255,253,248,.66),rgba(255,249,239,.46));
+  border:1px solid rgba(255,255,255,.64);
+  box-shadow:0 18px 54px rgba(33,22,12,.14), inset 0 1px 0 rgba(255,255,255,.72);
+  backdrop-filter:blur(18px) saturate(1.18);
+  -webkit-backdrop-filter:blur(18px) saturate(1.18);
+  color:var(--ink);
+}
+.section.final .route:hover{
+  background:linear-gradient(180deg,rgba(255,253,248,.82),rgba(255,249,239,.62));
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:0 24px 72px rgba(33,22,12,.20), inset 0 1px 0 rgba(255,255,255,.80);
+}
+.section.final .route span{color:rgba(89,69,52,.82);}
+
+/* Optional mid-page proof window/stats system. */
+.stat-ticker-strip{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(12px,1.6vw,18px);
+  margin:clamp(24px,3vw,38px) 0 0;
+}
+.stat-ticker{
+  position:relative;
+  min-height:clamp(210px,21vw,310px);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow:hidden;
+  border-radius:clamp(24px,2.8vw,38px);
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(180deg,rgba(255,253,248,.92),rgba(255,249,239,.80));
+  box-shadow:0 22px 70px rgba(40,25,12,.11), inset 0 1px 0 rgba(255,255,255,.64);
+  padding:clamp(22px,2.6vw,34px);
+}
+.stat-ticker::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;width:4px;
+  background:var(--orange);
+}
+.stat-ticker::after{
+  content:"";
+  position:absolute;
+  right:-50px;bottom:-48px;
+  width:150px;height:115px;
+  background:url('../images/otos-brain-icon.png') center/contain no-repeat;
+  opacity:.035;
+  pointer-events:none;
+}
+.dark .stat-ticker{
+  background:linear-gradient(180deg,rgba(23,32,45,.88),rgba(9,13,20,.76));
+  border-color:rgba(255,255,255,.13);
+  box-shadow:0 28px 80px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.stat-ticker-label{
+  font-size:11px;
+  font-weight:1000;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--orange);
+  margin:0 0 16px;
+}
+.stat-ticker-value{
+  display:block;
+  font-size:clamp(48px,7vw,106px);
+  line-height:.82;
+  font-weight:1000;
+  letter-spacing:-.085em;
+  color:var(--orange);
+  margin:0 0 16px;
+  font-variant-numeric:tabular-nums;
+}
+.stat-ticker-title{
+  margin:0 0 10px;
+  font-size:clamp(20px,1.7vw,30px);
+  line-height:1.02;
+  font-weight:1000;
+  letter-spacing:-.06em;
+  color:var(--ink);
+}
+.dark .stat-ticker-title{color:#fff;}
+.stat-ticker-note{
+  margin:0;
+  font-size:clamp(14px,.35vw + 13px,16px);
+  line-height:1.52;
+  color:var(--muted);
+  font-weight:650;
+}
+.dark .stat-ticker-note{color:rgba(255,255,255,.70);}
+.stat-ticker-source{
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px solid rgba(107,85,68,.18);
+  font-size:10px;
+  line-height:1.35;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(107,85,68,.74);
+  font-weight:900;
+}
+.dark .stat-ticker-source{border-top-color:rgba(255,255,255,.11);color:rgba(255,255,255,.52);}
+
+@media(max-width:1120px){.stat-ticker-strip{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:640px){.stat-ticker-strip{grid-template-columns:1fr}.stat-ticker{min-height:190px}.stat-ticker-value{font-size:clamp(54px,18vw,86px)}}
