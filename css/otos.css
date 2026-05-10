@@ -75,3 +75,109 @@
   .final .route{min-height:150px;}
   .brand-logo{width:30px;height:30px;}
 }
+
+
+/* ============================================================
+   FIX PASS — STATIC HERO IMAGES + RESTORED HEADER
+   Rule: image layer is fixed/static; text and page content scroll normally.
+   This deliberately avoids sticky text and avoids hiding real images.
+   ============================================================ */
+
+/* Keep the navigation/header visible above all image layers */
+.site-nav{
+  position:fixed !important;
+  top:0 !important; left:0 !important; right:0 !important;
+  z-index:9999 !important;
+  pointer-events:none !important;
+}
+.nav-inner{
+  pointer-events:auto !important;
+  position:relative !important;
+  z-index:10000 !important;
+}
+.brand-logo{
+  display:block !important;
+  width:34px !important;
+  height:34px !important;
+  object-fit:contain !important;
+}
+
+/* Static hero image layer.
+   The hero text remains normal content and scrolls up.
+   The image itself no longer scrolls like a normal page element. */
+.hero{
+  position:relative !important;
+  overflow:hidden !important;
+  isolation:isolate !important;
+}
+.hero-bg{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:0 !important;
+  display:block !important;
+  opacity:1 !important;
+  transform:none !important;
+  filter:saturate(.96) contrast(1.02) !important;
+  background-image:var(--hero) !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+  background-attachment:fixed !important;
+}
+.hero-bg .hero-image,
+.hero-image{
+  display:none !important;
+}
+.hero:before{
+  z-index:1 !important;
+  pointer-events:none !important;
+}
+.hero:after{
+  z-index:1 !important;
+  pointer-events:none !important;
+}
+.hero-copy{
+  position:relative !important;
+  z-index:2 !important;
+}
+
+/* Keep normal image cards stable; no hover drift or motion. */
+.image-card img,
+.route img{
+  transform:none !important;
+  transition:none !important;
+  animation:none !important;
+}
+
+/* Preserve the warm colour-through-dark look where dark sections are used. */
+.section.dark{
+  background:
+    radial-gradient(circle at 82% 88%, rgba(242,108,13,.10), transparent 24%),
+    radial-gradient(circle at 12% 12%, rgba(242,108,13,.055), transparent 26%),
+    #07090d !important;
+}
+
+/* Make the bottom three-option frame feel like transparent glass, not empty panels. */
+.final .route-list{
+  position:relative !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(circle at 18% 82%, rgba(242,108,13,.08), transparent 24%),
+    radial-gradient(circle at 86% 86%, rgba(242,108,13,.10), transparent 24%),
+    linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.18)) !important;
+  border:1px solid rgba(255,255,255,.58) !important;
+  box-shadow:0 22px 55px rgba(64,42,22,.11), inset 0 1px 0 rgba(255,255,255,.58) !important;
+  backdrop-filter:blur(18px) !important;
+  -webkit-backdrop-filter:blur(18px) !important;
+}
+.final .route{
+  background:linear-gradient(180deg,rgba(255,255,255,.56),rgba(255,255,255,.34)) !important;
+  border:1px solid rgba(255,255,255,.62) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.48), 0 10px 24px rgba(64,42,22,.08) !important;
+}
+
+/* Mobile fallback: fixed backgrounds are unreliable on iOS/Android. */
+@media(max-width:900px){
+  .hero-bg{background-attachment:scroll !important;}
+  .site-nav{position:fixed !important;}
+}
