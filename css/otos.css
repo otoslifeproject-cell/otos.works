@@ -12,172 +12,39 @@
 
 
 /* ============================================================
-   STATIC IMAGE + GLASS FRAME PASS
-   Safe enhancement only:
-   - keep image rendering visible
-   - no sticky/fixed experiments
-   - subtle OTOS watermark treatment
-   - transparent scrolling window frame for final route panes
+   EMERGENCY FIX — REAL HERO IMAGES STATIC, TEXT SCROLLS
+   - real <img> hero image is visible
+   - hero image is fixed/static in viewport on desktop
+   - hero text and page content scroll normally
+   - header remains above all layers
    ============================================================ */
 
-.brand-mark{display:none}
-.brand-logo{width:34px;height:34px;object-fit:contain;display:block;filter:drop-shadow(0 2px 12px rgba(0,0,0,.4));}
-.brand{gap:12px}
+.site-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:9999!important;pointer-events:none!important;}
+.nav-inner{pointer-events:auto!important;position:relative!important;z-index:10000!important;}
+.brand-mark{display:none!important;}
+.brand-logo{display:block!important;width:34px!important;height:34px!important;object-fit:contain!important;filter:drop-shadow(0 2px 12px rgba(0,0,0,.45))!important;}
 
-/* Keep all images visible and static */
-.hero-bg{filter:saturate(.96) contrast(1.01);transform:none;background-attachment:scroll;}
-.hero-image,.image-card img,.route-frame-bg img{transform:none !important;transition:none !important;animation:none !important;object-fit:cover;}
-.copy-card:hover,.mini-card:hover,.route:hover,.image-card:hover img{transform:none !important;box-shadow:inherit;}
+.hero{position:relative!important;min-height:100vh!important;overflow:hidden!important;isolation:isolate!important;background:#07090d!important;}
+.hero-bg{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden!important;background:#07090d!important;background-image:none!important;transform:none!important;filter:none!important;}
+.hero-image{display:block!important;position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;max-width:none!important;object-fit:cover!important;object-position:center center!important;z-index:0!important;opacity:1!important;transform:none!important;filter:saturate(.96) contrast(1.03)!important;}
+.hero:before{content:""!important;position:absolute!important;inset:0!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(90deg,rgba(7,9,13,.82),rgba(7,9,13,.58) 42%,rgba(7,9,13,.25) 74%,rgba(7,9,13,.08)),linear-gradient(0deg,rgba(7,9,13,.76),rgba(7,9,13,.18) 42%,rgba(7,9,13,0) 78%)!important;}
+.hero:after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:20%!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(0deg,rgba(7,9,13,.86),rgba(7,9,13,0))!important;}
+.hero-copy{position:relative!important;z-index:2!important;}
+.page-shell{position:relative!important;z-index:5!important;background:var(--paper)!important;}
 
-/* Light OTOS watermark system */
-.copy-card,.mini-card,.route,.route-list{position:relative;overflow:hidden;}
-.copy-card::after,.mini-card::after,.route::after{
-  content:"";position:absolute;right:-18px;bottom:-18px;width:92px;height:92px;
-  background:url('../images/otos-brain-icon.png') center/contain no-repeat;
-  opacity:.045;pointer-events:none;filter:saturate(.9);
-}
-.dark .copy-card::after,.dark .mini-card::after,.dark .route::after{opacity:.06}
+.section.dark{background:radial-gradient(circle at 82% 88%, rgba(242,108,13,.10), transparent 24%),radial-gradient(circle at 12% 12%, rgba(242,108,13,.055), transparent 26%),#07090d!important;}
+.image-card img{display:block!important;opacity:1!important;transform:none!important;transition:none!important;animation:none!important;object-fit:cover!important;}
 
-/* Transparent scrolling window frame for the route panes */
-.final .media{align-items:stretch;}
-.final .route-list{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch;
-  padding:22px;
-  border:1px solid rgba(255,255,255,.55);
-  border-radius:32px;
-  background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,.18));
-  box-shadow:0 22px 55px rgba(64,42,22,.10), inset 0 1px 0 rgba(255,255,255,.55);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-}
-.final .route-list::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(circle at 18% 82%, rgba(242,108,13,.06), transparent 22%),
-             radial-gradient(circle at 84% 86%, rgba(242,108,13,.09), transparent 22%),
-             linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0));
-}
-.final .route{
-  min-height:240px;
-  border-radius:28px;
-  background:linear-gradient(180deg,rgba(255,255,255,.54),rgba(255,255,255,.34));
-  border:1px solid rgba(255,255,255,.58);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.42), 0 10px 24px rgba(64,42,22,.08);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  justify-content:center;
-}
-.final .route::after{opacity:.04;width:82px;height:82px;right:-16px;bottom:-14px;}
-.final .route span{margin-top:12px;font-size:12px;letter-spacing:.18em;}
+.copy-card,.mini-card,.route,.route-list{position:relative!important;overflow:hidden!important;}
+.copy-card::after,.mini-card::after,.route::after{content:""!important;position:absolute!important;right:-18px!important;bottom:-18px!important;width:92px!important;height:92px!important;background:url('../images/otos-brain-icon.png') center/contain no-repeat!important;opacity:.045!important;pointer-events:none!important;}
+.dark .copy-card::after,.dark .mini-card::after,.dark .route::after{opacity:.065!important;}
 
-/* On final section copy card, match frame styling a touch more */
-.final .copy-card{background:rgba(255,249,242,.78);}
+.final .route-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;padding:22px!important;border:1px solid rgba(255,255,255,.58)!important;border-radius:32px!important;background:radial-gradient(circle at 18% 82%, rgba(242,108,13,.08), transparent 24%),radial-gradient(circle at 86% 86%, rgba(242,108,13,.10), transparent 24%),linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.18))!important;box-shadow:0 22px 55px rgba(64,42,22,.11), inset 0 1px 0 rgba(255,255,255,.58)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important;}
+.final .route{min-height:240px!important;border-radius:28px!important;background:linear-gradient(180deg,rgba(255,255,255,.56),rgba(255,255,255,.34))!important;border:1px solid rgba(255,255,255,.62)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.48), 0 10px 24px rgba(64,42,22,.08)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important;justify-content:center!important;}
 
-@media(max-width:980px){
-  .final .route-list{grid-template-columns:1fr;padding:18px;}
-  .final .route{min-height:150px;}
-  .brand-logo{width:30px;height:30px;}
-}
-
-
-/* ============================================================
-   FIX PASS — STATIC HERO IMAGES + RESTORED HEADER
-   Rule: image layer is fixed/static; text and page content scroll normally.
-   This deliberately avoids sticky text and avoids hiding real images.
-   ============================================================ */
-
-/* Keep the navigation/header visible above all image layers */
-.site-nav{
-  position:fixed !important;
-  top:0 !important; left:0 !important; right:0 !important;
-  z-index:9999 !important;
-  pointer-events:none !important;
-}
-.nav-inner{
-  pointer-events:auto !important;
-  position:relative !important;
-  z-index:10000 !important;
-}
-.brand-logo{
-  display:block !important;
-  width:34px !important;
-  height:34px !important;
-  object-fit:contain !important;
-}
-
-/* Static hero image layer.
-   The hero text remains normal content and scrolls up.
-   The image itself no longer scrolls like a normal page element. */
-.hero{
-  position:relative !important;
-  overflow:hidden !important;
-  isolation:isolate !important;
-}
-.hero-bg{
-  position:absolute !important;
-  inset:0 !important;
-  z-index:0 !important;
-  display:block !important;
-  opacity:1 !important;
-  transform:none !important;
-  filter:saturate(.96) contrast(1.02) !important;
-  background-image:var(--hero) !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
-  background-attachment:fixed !important;
-}
-.hero-bg .hero-image,
-.hero-image{
-  display:none !important;
-}
-.hero:before{
-  z-index:1 !important;
-  pointer-events:none !important;
-}
-.hero:after{
-  z-index:1 !important;
-  pointer-events:none !important;
-}
-.hero-copy{
-  position:relative !important;
-  z-index:2 !important;
-}
-
-/* Keep normal image cards stable; no hover drift or motion. */
-.image-card img,
-.route img{
-  transform:none !important;
-  transition:none !important;
-  animation:none !important;
-}
-
-/* Preserve the warm colour-through-dark look where dark sections are used. */
-.section.dark{
-  background:
-    radial-gradient(circle at 82% 88%, rgba(242,108,13,.10), transparent 24%),
-    radial-gradient(circle at 12% 12%, rgba(242,108,13,.055), transparent 26%),
-    #07090d !important;
-}
-
-/* Make the bottom three-option frame feel like transparent glass, not empty panels. */
-.final .route-list{
-  position:relative !important;
-  overflow:hidden !important;
-  background:
-    radial-gradient(circle at 18% 82%, rgba(242,108,13,.08), transparent 24%),
-    radial-gradient(circle at 86% 86%, rgba(242,108,13,.10), transparent 24%),
-    linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.18)) !important;
-  border:1px solid rgba(255,255,255,.58) !important;
-  box-shadow:0 22px 55px rgba(64,42,22,.11), inset 0 1px 0 rgba(255,255,255,.58) !important;
-  backdrop-filter:blur(18px) !important;
-  -webkit-backdrop-filter:blur(18px) !important;
-}
-.final .route{
-  background:linear-gradient(180deg,rgba(255,255,255,.56),rgba(255,255,255,.34)) !important;
-  border:1px solid rgba(255,255,255,.62) !important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.48), 0 10px 24px rgba(64,42,22,.08) !important;
-}
-
-/* Mobile fallback: fixed backgrounds are unreliable on iOS/Android. */
 @media(max-width:900px){
-  .hero-bg{background-attachment:scroll !important;}
-  .site-nav{position:fixed !important;}
+  .hero-image{position:absolute!important;width:100%!important;height:100%!important;}
+  .final .route-list{grid-template-columns:1fr!important;padding:18px!important;}
+  .final .route{min-height:150px!important;}
+  .brand-logo{width:30px!important;height:30px!important;}
 }
