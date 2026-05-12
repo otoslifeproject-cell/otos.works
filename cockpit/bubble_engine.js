@@ -37,62 +37,62 @@ const CONFIG = {
 const TASK_DATA = [
   {
     id: 'task-1',
-    title: 'Write morning brief',
-    subline: 'Daily clarity check-in',
-    why: 'Starting with clarity sets the tone for the whole day.',
-    nextStep: 'Open notes and write 3 sentences about today.',
+    title: 'Call Inertiia / CGL roadmap',
+    subline: 'Partnership alignment',
+    why: 'Inertiia and CGL are key delivery partners — keeping them aligned unlocks the pilot.',
+    nextStep: 'Book a 30-min call and share the updated roadmap doc.',
     priority: 1,
     lane: 'focus',
     status: 'active',
   },
   {
     id: 'task-2',
-    title: 'Review feedback',
-    subline: "From yesterday's session",
-    why: 'Acting on feedback builds momentum.',
-    nextStep: 'Read the three comments and note one action.',
+    title: 'Re-cost £150k pre-pilot',
+    subline: 'Budget refresh needed',
+    why: 'Costs have shifted — presenting outdated numbers risks credibility.',
+    nextStep: 'Open the budget sheet and update three line items.',
     priority: 2,
-    lane: 'support',
+    lane: 'admin',
     status: 'active',
   },
   {
     id: 'task-3',
-    title: 'Send partner update',
-    subline: 'CGL & CRS weekly note',
-    why: 'Keeps partners informed and trust high.',
-    nextStep: 'Write two sentences and send.',
+    title: 'Mark / Emma intro route',
+    subline: 'Warm intro pathway',
+    why: 'A warm intro through Mark or Emma shortens the sales cycle significantly.',
+    nextStep: 'Draft a two-sentence intro request and send to Mark.',
     priority: 3,
-    lane: 'admin',
+    lane: 'support',
     status: 'active',
   },
   {
     id: 'task-4',
-    title: 'Rest & recharge',
-    subline: 'Protect your energy',
-    why: 'You work better when rested.',
-    nextStep: 'Step away from the screen for 10 minutes.',
+    title: 'Log evidence URLs',
+    subline: 'Research & evidence base',
+    why: 'Evidence URLs are needed for the grant application due end of month.',
+    nextStep: 'Add five URLs to the evidence log document.',
     priority: 4,
-    lane: 'personal',
-    status: 'active',
-  },
-  {
-    id: 'task-5',
-    title: 'Read ADHD article',
-    subline: 'Research note',
-    why: 'Deepens your understanding of the audience.',
-    nextStep: 'Read for 5 minutes, highlight one insight.',
-    priority: 5,
     lane: 'learning',
     status: 'active',
   },
   {
-    id: 'task-6',
-    title: 'Update roadmap',
-    subline: 'Q3 priorities',
-    why: 'Keeps the team aligned on direction.',
-    nextStep: 'Add two items to the roadmap doc.',
-    priority: 6,
+    id: 'task-5',
+    title: 'Clean partner one-pager',
+    subline: 'Partner comms refresh',
+    why: 'The current one-pager is outdated — partners are asking questions it should answer.',
+    nextStep: 'Update the header, stats and call to action.',
+    priority: 5,
     lane: 'admin',
+    status: 'active',
+  },
+  {
+    id: 'task-6',
+    title: 'SkyHawk dry-run QA',
+    subline: 'Pre-demo testing',
+    why: 'A clean dry-run prevents live demo failures in front of commissioners.',
+    nextStep: 'Run through the full SkyHawk flow and log any issues.',
+    priority: 6,
+    lane: 'focus',
     status: 'active',
   },
 ];
@@ -354,17 +354,14 @@ function handleBubbleClick(taskId) {
   if (state.current === STATES.PROMOTING || state.current === STATES.COMPLETING) return;
   if (state.current === STATES.ACTION_MODE) return;
 
-  if (taskId === state.oneActionId) {
-    // Clicking the OneAction opens it directly
-    openActionMode(taskId);
-    return;
-  }
-
+  // Clicking an already-inspected bubble collapses it
   if (state.current === STATES.INSPECTING && state.inspectedId === taskId) {
     collapseInspect();
     return;
   }
 
+  // All bubbles — including the current OneAction — go to INSPECTING first.
+  // The user must deliberately click Open / Do to enter ACTION_MODE.
   inspectBubble(taskId);
 }
 
@@ -373,6 +370,14 @@ function inspectBubble(taskId) {
   state.current     = STATES.INSPECTING;
   state.inspectedId = taskId;
   hint.classList.add('hidden');
+
+  // Hide "Make this OneAction" for the bubble that is already the OneAction
+  const el = document.getElementById(`bubble-${taskId}`);
+  if (el) {
+    const btnPromote = el.querySelector('.btn-promote');
+    if (btnPromote) btnPromote.style.display = taskId === state.oneActionId ? 'none' : '';
+  }
+
   positionAllBubbles();
 }
 

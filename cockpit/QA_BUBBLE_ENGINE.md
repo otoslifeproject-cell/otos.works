@@ -13,7 +13,7 @@ Run through each item after any change. Mark ✅ pass / ❌ fail / ⚠️ partia
 - [ ] Tertiary bubbles are smaller and lower opacity than secondary
 - [ ] The hint text "Click any bubble to inspect it" is visible
 - [ ] The dominant bubble has a subtle float animation
-- [ ] Bubbles do not overlap each other
+- [ ] Bubbles may overlap softly / sit behind each other, but titles remain readable and the OneAction remains dominant
 - [ ] Layout fills the viewport without overflow scrollbars
 - [ ] Warm cream background is visible (no harsh black/white)
 
@@ -22,14 +22,15 @@ Run through each item after any change. Mark ✅ pass / ❌ fail / ⚠️ partia
 ## Inspect State
 
 - [ ] Clicking a secondary bubble transitions it to inspect state
+- [ ] Clicking the current OneAction bubble also enters inspect state (not ACTION_MODE directly)
+- [ ] A single click never throws the user into ACTION_MODE
 - [ ] The inspected bubble grows smoothly (not a snap)
 - [ ] The inspected bubble moves toward centre slightly but does not jump there
 - [ ] The inspected bubble reveals its subline text
-- [ ] Two primary buttons appear: **Make this OneAction** and **Open / Do**
-- [ ] A **Collapse** button is also present
+- [ ] For secondary bubbles: buttons shown are **Make this OneAction**, **Open / Do**, **Collapse**
+- [ ] For the current OneAction bubble: buttons shown are **Open / Do** and **Collapse** only — no **Make this OneAction**
 - [ ] No card, modal, or rectangular panel appears
 - [ ] The inspected bubble retains its circular/spherical shape
-- [ ] The current OneAction remains visible behind/around the inspected bubble
 - [ ] Non-inspected bubbles soften (lower opacity) but remain visible
 - [ ] Clicking **Collapse** returns everything to REST state smoothly
 
