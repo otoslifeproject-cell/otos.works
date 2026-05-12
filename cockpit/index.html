@@ -3,14 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OTOS OneAction™ Bubble Engine v1</title>
+  <title>OTOS OneAction™ Bubble Engine v2</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="oneaction-bubble-engine">
     <div id="bubble-field"></div>
-    <div id="engine-hint" class="engine-hint">Click any bubble to inspect it</div>
+    <p class="engine-hint" id="engine-hint">Click any bubble to inspect it</p>
   </div>
+  <div id="debug-strip" class="debug-strip" hidden>
+    <span id="dbg-state">STATE: REST</span>
+    <span id="dbg-oneaction">OneAction: —</span>
+    <span id="dbg-inspected">Inspecting: —</span>
+    <button class="dbg-btn" id="dbg-motion-toggle">⚡ Motion: ON</button>
+    <button class="dbg-btn" onclick="document.getElementById('debug-strip').hidden=true">✕</button>
+  </div>
+  <button id="debug-toggle" title="Debug panel">⚙</button>
   <script src="bubble_engine.js"></script>
 </body>
 </html>

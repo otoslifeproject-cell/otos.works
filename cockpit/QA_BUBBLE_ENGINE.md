@@ -1,4 +1,4 @@
-# QA Checklist — OTOS OneAction™ Bubble Engine v1
+# QA Checklist — OTOS OneAction™ Bubble Engine v2
 
 Run through each item after any change. Mark ✅ pass / ❌ fail / ⚠️ partial.
 
@@ -6,104 +6,133 @@ Run through each item after any change. Mark ✅ pass / ❌ fail / ⚠️ partia
 
 ## Base State (REST)
 
-- [ ] One dominant bubble is clearly larger than all others
-- [ ] The dominant bubble is centred on screen
+- [ ] One dominant OneAction bubble is clearly the largest element on screen
+- [ ] OneAction bubble is centred on the viewport
+- [ ] Tight cluster of secondary and tertiary bubbles sits behind / around the OneAction
+- [ ] Cluster feels held together — not scattered across the screen
 - [ ] No modal, card, or panel is visible on load
-- [ ] Secondary bubbles show title text only (no subline, no buttons)
-- [ ] Tertiary bubbles are smaller and lower opacity than secondary
-- [ ] The hint text "Click any bubble to inspect it" is visible
-- [ ] The dominant bubble has a subtle float animation
-- [ ] Bubbles may overlap softly / sit behind each other, but titles remain readable and the OneAction remains dominant
-- [ ] Layout fills the viewport without overflow scrollbars
-- [ ] Warm cream background is visible (no harsh black/white)
+- [ ] Secondary bubbles show title only — no subline text, no buttons
+- [ ] Tertiary bubbles are smaller than secondary; all labels remain readable
+- [ ] OneAction hierarchy is obvious before reading any text
+- [ ] All bubble labels are readable and not clipped
+- [ ] Bubbles feel premium and solid — not flat or washed out
+- [ ] Hint text "Click any bubble to inspect it" is visible at the bottom
+- [ ] OneAction bubble has a subtle float animation (6 s, 10 px vertical)
+- [ ] No other bubble animates constantly at REST
+- [ ] Warm cream background visible; no harsh black or white
+- [ ] No overflow scrollbars at any tested viewport size
 
 ---
 
-## Inspect State
+## Inspect — OneAction bubble
 
-- [ ] Clicking a secondary bubble transitions it to inspect state
-- [ ] Clicking the current OneAction bubble also enters inspect state (not ACTION_MODE directly)
-- [ ] A single click never throws the user into ACTION_MODE
-- [ ] The inspected bubble grows smoothly (not a snap)
-- [ ] The inspected bubble moves toward centre slightly but does not jump there
-- [ ] The inspected bubble reveals its subline text
-- [ ] For secondary bubbles: buttons shown are **Make this OneAction**, **Open / Do**, **Collapse**
-- [ ] For the current OneAction bubble: buttons shown are **Open / Do** and **Collapse** only — no **Make this OneAction**
-- [ ] No card, modal, or rectangular panel appears
-- [ ] The inspected bubble retains its circular/spherical shape
-- [ ] Non-inspected bubbles soften (lower opacity) but remain visible
-- [ ] Clicking **Collapse** returns everything to REST state smoothly
+- [ ] Clicking the OneAction bubble → INSPECTING (never straight to Action Mode)
+- [ ] A single click never jumps the user into Action Mode
+- [ ] OneAction stays centred; it does not move when inspected
+- [ ] Buttons shown: **Open / Do** and **Collapse** only
+- [ ] **Make this OneAction** is NOT shown when inspecting the OneAction
+- [ ] Subline text becomes visible
+- [ ] OneAction receives a stronger ring / glow (state-inspecting style)
+- [ ] Other bubbles soften (lower opacity), but remain visible
+- [ ] No rectangular panel or modal appears
+- [ ] Bubble retains its circular spherical shape
+- [ ] Pressing Escape collapses back to REST smoothly
 
 ---
 
-## Promotion State
+## Inspect — Secondary bubble
+
+- [ ] Clicking a secondary bubble → INSPECTING
+- [ ] Bubble grows smoothly in its cluster position — it does not jump to centre
+- [ ] Buttons shown: **Make this OneAction** and **Collapse** only
+- [ ] **Open / Do** is NOT shown on a secondary bubble
+- [ ] Subline text becomes visible on the inspected bubble
+- [ ] Other bubbles soften; OneAction remains visible and clearly dominant
+- [ ] No modal or card appears
+- [ ] Pressing Escape collapses back to REST smoothly
+
+---
+
+## Promotion
 
 - [ ] Clicking **Make this OneAction** triggers a physical move animation
-- [ ] The inspected bubble moves to the centre position
-- [ ] The inspected bubble grows to the OneAction size
-- [ ] The previous OneAction shrinks and moves to a secondary slot
-- [ ] Other bubbles rebalance their positions around the new OneAction
-- [ ] Motion is spatially legible (you can follow which bubble is which)
-- [ ] No bubble teleports (all movement is animated)
-- [ ] After animation, the system returns cleanly to REST state
-- [ ] The promoted bubble now has the float animation
+- [ ] Promoted bubble travels to the centre and grows to OneAction size
+- [ ] Old OneAction shrinks and moves to a secondary cluster slot
+- [ ] Surrounding bubbles rebalance their positions around the new centre
+- [ ] No bubble teleports — all movement is continuously animated
+- [ ] Soft-body squeeze-inward plays on the promoted bubble
+- [ ] Soft-body squeeze-yield plays on the demoting bubble
+- [ ] Squeeze fires at roughly 52 % through the promotion (not instantly)
+- [ ] Bubbles return to a clean circular form after squeeze settles
+- [ ] Promoted bubble has the float animation once REST is restored
+- [ ] System returns cleanly to REST state after promotion
 
 ---
 
-## Open / Do (Action Mode)
+## Action Mode
 
-- [ ] Clicking **Open / Do** expands the bubble into an execution surface
-- [ ] The execution surface is large, rounded, and bubble-like (not a rectangle)
-- [ ] It shows: task title, subline, "why this matters", "next step"
-- [ ] Three buttons are present: **Mark Complete**, **Defer**, **← Back**
+- [ ] **Open / Do** is only accessible from the current OneAction inspect
+- [ ] Clicking **Open / Do** on a secondary bubble does nothing (button not shown)
+- [ ] OneAction bubble expands smoothly to the large rounded surface
+- [ ] Surface is bubble-like and rounded — NOT a separate rectangular modal
+- [ ] Content shown: title, subline, "Why this matters" label + text, "Next step" label + text
+- [ ] Buttons shown: **Mark Complete**, **Defer**, **← Back**
 - [ ] The experience feels like the bubble expanded, not like a modal appeared
-- [ ] Clicking **← Back** returns to REST state
+- [ ] Surrounding cluster softens but remains visible
+- [ ] Clicking **← Back** returns smoothly to REST
 
 ---
 
 ## Completion
 
-- [ ] Clicking **Mark Complete** fades/shrinks the current OneAction bubble
-- [ ] The next highest priority bubble rises to the OneAction position
+- [ ] Clicking **Mark Complete** begins a fade + scale-down animation on the OneAction
+- [ ] After animation, the completed bubble is removed from the field
+- [ ] Next highest-priority task rises to the OneAction position
 - [ ] All remaining bubbles rebalance around the new OneAction
-- [ ] The completed bubble is removed from the field
-- [ ] No sudden list or panel appears
-- [ ] The system ends in a clean REST state with the new OneAction centred
+- [ ] No rectangular list or panel appears at any point
+- [ ] System ends in a clean REST state with the new OneAction centred
 
 ---
 
 ## Deferral
 
-- [ ] Clicking **Defer** moves the current OneAction to the end of the queue
-- [ ] The next task rises to the OneAction position
-- [ ] The deferred task becomes a secondary bubble (still visible)
-- [ ] All bubbles rebalance smoothly
+- [ ] Clicking **Defer** moves the current OneAction to the back of the queue
+- [ ] Next task rises to the OneAction position smoothly
+- [ ] Deferred task reappears as a secondary bubble (still visible in cluster)
+- [ ] All bubbles rebalance without teleporting
+- [ ] System ends in a clean REST state
 
 ---
 
-## Accessibility / Motion
+## Accessible and reduced motion
 
-- [ ] Reduced-motion mode shortens all transitions to ~80ms (test via OS setting)
-- [ ] No animation loops or transitions run constantly (only float on OneAction)
-- [ ] Buttons are keyboard-focusable
-- [ ] Text is readable against bubble backgrounds at all sizes
+- [ ] Pressing Escape in INSPECTING state → REST
+- [ ] Pressing Escape in ACTION_MODE state → REST
+- [ ] All buttons are keyboard-focusable with visible focus ring
+- [ ] Reduced-motion OS setting shortens all transitions to ~80 ms
+- [ ] Reduced-motion OS setting removes all looping animations
+- [ ] Debug panel motion toggle (⚡ Motion: OFF) produces the same reduced-motion behaviour at runtime
 
 ---
 
-## Layout / Responsiveness
+## Layout and responsiveness
 
-- [ ] Works on laptop viewport (~1366×768)
-- [ ] Works on large desktop (~1920×1080)
+- [ ] Works correctly at laptop viewport (~1366 × 768)
+- [ ] Works correctly at large desktop (~1920 × 1080)
 - [ ] Bubbles resize correctly on window resize
-- [ ] No overflow scroll is introduced at any tested size
+- [ ] Resize does not cause bubbles to jump — they reposition smoothly
+- [ ] Cluster feels tight and pod-like at all tested sizes
+- [ ] OneAction dominance is clear at all tested sizes
+- [ ] Bubbles may overlap softly, but the OneAction is never obscured
 
 ---
 
-## Code Quality
+## Code integrity
 
 - [ ] No external dependencies (no CDN links, no npm modules)
 - [ ] `TASK_DATA` array is clearly separated and easy to replace
-- [ ] `CONFIG` constants are at the top of `bubble_engine.js`
-- [ ] State transitions are clearly named and commented
-- [ ] CSS class names are prefixed to avoid conflicts (`bubble-`, `btn-`, etc.)
-- [ ] Root container is `#oneaction-bubble-engine` with no global style leakage
+- [ ] `CONFIG` object is at the top of `bubble_engine.js`
+- [ ] All state transitions are named, guarded, and commented
+- [ ] CSS class names are prefixed (`bubble-`, `btn-`, `action-`, etc.) — no global leakage
+- [ ] Root container `#oneaction-bubble-engine` is self-contained
+- [ ] Debug strip hidden by default; toggle button visible bottom-right

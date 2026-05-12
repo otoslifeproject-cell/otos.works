@@ -1,98 +1,119 @@
 /* ============================================================
-   OTOS OneAction™ Bubble Engine v1 — bubble_engine.js
+   OTOS OneAction™ Bubble Engine v2 — bubble_engine.js
+   Two-layer architecture:
+     .bubble-wrap  → position (transform, width, height, z-index, transition)
+     .bubble-sphere → visual (gradient, shadow, squeeze via scaleX/Y keyframes)
+   These animate independently so position and squeeze never conflict.
    ============================================================ */
+
+'use strict';
 
 // --- CONFIG ---
 const CONFIG = {
   timing: {
-    inspect:   450,
-    promote:   800,
-    rebalance: 900,
-    complete:  700,
-    hover:     200,
+    inspect:   400,
+    promote:   750,
+    rebalance: 800,
+    complete:  650,
+    defer:     700,
+    squeeze:   280,
   },
   easing: {
-    spring: 'cubic-bezier(0.34, 1.3, 0.64, 1)',
-    smooth: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-    settle: 'cubic-bezier(0.22, 1, 0.36, 1)',
+    spring: 'cubic-bezier(0.34,1.25,0.64,1)',
+    smooth: 'cubic-bezier(0.25,0.46,0.45,0.94)',
+    settle: 'cubic-bezier(0.22,1,0.36,1)',
   },
-  // Bubble diameters as fraction of min(vw, vh)
+  // Sizes in vmin units
   size: {
-    primary:    0.28,
-    secondary:  0.135,
-    tertiary:   0.085,
-    inspecting: 0.22,
-    action:     0.62,
+    primary:    28,
+    secondary:  13,
+    tertiary:    8,
+    inspecting: 20,
+    action:     58,
   },
-  // Orbital distances from centre as fraction of min(vw, vh)
-  orbit: {
-    secondary: 0.295,
-    tertiary:  0.440,
+  // Tight cluster offsets in vmin from centre
+  cluster: {
+    secondary: [
+      { dx: -16, dy: -11 },
+      { dx:  13, dy: -15 },
+      { dx:  20, dy:   4 },
+      { dx: -18, dy:   8 },
+      { dx:   5, dy:  19 },
+      { dx:  -8, dy: -19 },
+    ],
+    tertiary: [
+      { dx:  14, dy:  25 },
+      { dx: -25, dy:  11 },
+      { dx:  23, dy: -14 },
+      { dx: -12, dy: -26 },
+    ],
   },
-  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  _reducedMotion: false,
+  get reducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion:reduce)').matches || this._reducedMotion;
+  },
 };
 
-// --- TASK DATA ---
-// Replace with real data when integrating with the Cockpit
+// --- TASK DATA (exact OTOS data) ---
 const TASK_DATA = [
   {
-    id: 'task-1',
+    id: 'cgl-roadmap',
     title: 'Call Inertiia / CGL roadmap',
-    subline: 'Partnership alignment',
-    why: 'Inertiia and CGL are key delivery partners — keeping them aligned unlocks the pilot.',
-    nextStep: 'Book a 30-min call and share the updated roadmap doc.',
+    subline: 'Align scope and next steps.',
+    why: 'This moves the work from build/prep into a real partner route.',
+    nextStep: 'Open CRM notes, confirm the ask, then prepare the call or message.',
     priority: 1,
-    lane: 'focus',
+    lane: 'people',
     status: 'active',
   },
   {
-    id: 'task-2',
+    id: 'recost-150k',
     title: 'Re-cost £150k pre-pilot',
-    subline: 'Budget refresh needed',
-    why: 'Costs have shifted — presenting outdated numbers risks credibility.',
-    nextStep: 'Open the budget sheet and update three line items.',
+    subline: 'Clean working funding base.',
+    why: 'The specification has matured, so old figures must be clarified before external use.',
+    nextStep: 'Open Money / Funding and add each figure to the re-costing register.',
     priority: 2,
-    lane: 'admin',
+    lane: 'money',
     status: 'active',
   },
   {
-    id: 'task-3',
+    id: 'mark-emma-intro',
     title: 'Mark / Emma intro route',
-    subline: 'Warm intro pathway',
-    why: 'A warm intro through Mark or Emma shortens the sales cycle significantly.',
+    subline: 'Warm intro pathway.',
+    why: 'A warm intro could shorten the credibility and funding route.',
     nextStep: 'Draft a two-sentence intro request and send to Mark.',
     priority: 3,
-    lane: 'support',
+    lane: 'people',
     status: 'active',
   },
   {
-    id: 'task-4',
+    id: 'evidence-urls',
     title: 'Log evidence URLs',
-    subline: 'Research & evidence base',
-    why: 'Evidence URLs are needed for the grant application due end of month.',
-    nextStep: 'Add five URLs to the evidence log document.',
+    subline: 'Research and claims base.',
+    why: 'Claims must not float without sources.',
+    nextStep: 'Add URLs to the Claims Register and tag as sourced or needs verification.',
     priority: 4,
-    lane: 'learning',
+    lane: 'truth',
     status: 'active',
   },
   {
-    id: 'task-5',
+    id: 'partner-one-pager',
     title: 'Clean partner one-pager',
-    subline: 'Partner comms refresh',
-    why: 'The current one-pager is outdated — partners are asking questions it should answer.',
-    nextStep: 'Update the header, stats and call to action.',
+    subline: 'Keep ask simple.',
+    why: 'A clean one-pager helps avoid overwhelming partners or drifting the ask.',
+    nextStep: 'Open the partner pack and remove anything not needed for the first conversation.',
     priority: 5,
-    lane: 'admin',
+    lane: 'continuity',
     status: 'active',
   },
   {
-    id: 'task-6',
+    id: 'skyhawk-dry-run',
     title: 'SkyHawk dry-run QA',
-    subline: 'Pre-demo testing',
-    why: 'A clean dry-run prevents live demo failures in front of commissioners.',
-    nextStep: 'Run through the full SkyHawk flow and log any issues.',
+    subline: 'Keep parked until safe.',
+    why: 'SkyHawk is useful but should not add noise before the core Cockpit is stable.',
+    nextStep: 'Check dry-run mode and confirm no uncontrolled collection is active.',
     priority: 6,
-    lane: 'focus',
+    lane: 'skyhawk',
     status: 'active',
   },
 ];
@@ -104,31 +125,45 @@ const STATES = {
   PROMOTING:   'PROMOTING',
   ACTION_MODE: 'ACTION_MODE',
   COMPLETING:  'COMPLETING',
+  DEFERRED:    'DEFERRED',
 };
 
 let state = {
-  current:         STATES.REST,
-  oneActionId:     null,   // task id currently in OneAction position
-  inspectedId:     null,   // task id currently being inspected
-  tasks:           [],     // live working copy of tasks
-  slotAngles:      [],     // computed orbital angles per slot index
+  current:     STATES.REST,
+  oneActionId: null,
+  inspectedId: null,
+  tasks:       [],
 };
-
-// --- ORBITAL SLOT ANGLES ---
-// Predefined so secondary bubbles have stable, organic positions
-const SECONDARY_ANGLES_DEG = [315, 40, 130, 225, 355, 80, 170, 260];
-const TERTIARY_ANGLES_DEG  = [20, 110, 200, 290];
 
 // --- DOM REFERENCES ---
 const field = document.getElementById('bubble-field');
 const hint  = document.getElementById('engine-hint');
 
-// --- INIT ---
+// ============================================================
+// DURATION HELPER
+// ============================================================
+
+function durationForRole(role) {
+  if (CONFIG.reducedMotion) return 80;
+  const map = {
+    action:     CONFIG.timing.inspect,
+    inspecting: CONFIG.timing.inspect,
+    primary:    CONFIG.timing.promote,
+  };
+  return map[role] ?? CONFIG.timing.rebalance;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+
 function init() {
-  state.tasks = TASK_DATA.filter(t => t.status === 'active')
-                         .sort((a, b) => a.priority - b.priority);
+  state.tasks = TASK_DATA
+    .filter(t => t.status === 'active')
+    .sort((a, b) => a.priority - b.priority);
   state.oneActionId = state.tasks[0]?.id ?? null;
   renderBubbleField();
+  bindKeyboard();
 }
 
 // ============================================================
@@ -136,50 +171,57 @@ function init() {
 // ============================================================
 
 function renderBubbleField() {
-  const existing = new Set([...field.querySelectorAll('.bubble')].map(el => el.dataset.taskId));
-  const active   = new Set(state.tasks.map(t => t.id));
+  // Diff: existing bubble-wraps vs active tasks
+  const existingWraps = [...field.querySelectorAll('.bubble-wrap')];
+  const existingIds   = new Set(existingWraps.map(el => el.dataset.taskId));
+  const activeIds     = new Set(state.tasks.map(t => t.id));
 
-  // Remove bubbles for completed/removed tasks
-  existing.forEach(id => {
-    if (!active.has(id)) field.querySelector(`#bubble-${id}`)?.remove();
+  // Remove stale bubbles
+  existingWraps.forEach(el => {
+    if (!activeIds.has(el.dataset.taskId)) el.remove();
   });
 
-  // Create bubbles for new tasks
+  // Create new bubbles
   state.tasks.forEach(task => {
-    if (!existing.has(task.id)) {
-      field.appendChild(createBubbleElement(task));
+    if (!existingIds.has(task.id)) {
+      field.appendChild(createBubble(task));
     }
   });
 
-  // Position and style all bubbles
   positionAllBubbles();
+  updateDebug();
 }
 
-function createBubbleElement(task) {
-  const el = document.createElement('div');
-  el.className    = 'bubble';
-  el.id           = `bubble-${task.id}`;
-  el.dataset.taskId = task.id;
-  el.dataset.lane   = task.lane;
+function createBubble(task) {
+  // --- WRAP (positioning layer) ---
+  const wrap = document.createElement('div');
+  wrap.className      = 'bubble-wrap';
+  wrap.id             = `bubble-${task.id}`;
+  wrap.dataset.taskId = task.id;
+  wrap.dataset.lane   = task.lane;
 
-  // Standard content (title + subline)
+  // --- SPHERE (visual layer) ---
+  const sphere = document.createElement('div');
+  sphere.className = 'bubble-sphere';
+
+  // --- CONTENT: title + subline ---
   const content = document.createElement('div');
   content.className = 'bubble-content';
 
-  const title = document.createElement('div');
-  title.className = 'bubble-title';
-  title.textContent = task.title;
+  const titleEl = document.createElement('div');
+  titleEl.className   = 'bubble-title';
+  titleEl.textContent = task.title;
 
-  const subline = document.createElement('div');
-  subline.className = 'bubble-subline';
-  subline.textContent = task.subline;
+  const sublineEl = document.createElement('div');
+  sublineEl.className   = 'bubble-subline';
+  sublineEl.textContent = task.subline;
 
-  content.appendChild(title);
-  content.appendChild(subline);
+  content.appendChild(titleEl);
+  content.appendChild(sublineEl);
 
-  // Inspect-state buttons (hidden until inspecting)
+  // --- ACTIONS: inspect buttons ---
   const actions = document.createElement('div');
-  actions.className = 'bubble-inspect-actions';
+  actions.className = 'bubble-actions';
 
   const btnPromote = document.createElement('button');
   btnPromote.className   = 'btn btn-promote';
@@ -200,284 +242,356 @@ function createBubbleElement(task) {
   actions.appendChild(btnOpen);
   actions.appendChild(btnCollapse);
 
-  // Action-mode surface (hidden until ACTION_MODE)
-  const actionContent = document.createElement('div');
-  actionContent.className = 'bubble-action-content';
-  actionContent.innerHTML = buildActionHTML(task);
+  // --- ACTION SURFACE: full execution mode ---
+  const actionSurface = document.createElement('div');
+  actionSurface.className = 'bubble-action-surface';
 
-  actionContent.querySelector('.btn-complete')
-    .addEventListener('click', e => { e.stopPropagation(); completeCurrentAction(); });
-  actionContent.querySelector('.btn-defer')
-    .addEventListener('click', e => { e.stopPropagation(); deferCurrentAction(); });
-  actionContent.querySelector('.btn-back')
-    .addEventListener('click', e => { e.stopPropagation(); backFromAction(); });
-
-  el.appendChild(content);
-  el.appendChild(actions);
-  el.appendChild(actionContent);
-
-  // Click to inspect (only when not already the OneAction in action mode)
-  el.addEventListener('click', () => handleBubbleClick(task.id));
-
-  return el;
-}
-
-function buildActionHTML(task) {
-  return `
-    <div class="action-title">${task.title}</div>
-    <div class="action-subline">${task.subline}</div>
-    <div class="action-divider"></div>
+  const actionInner = document.createElement('div');
+  actionInner.className = 'action-inner';
+  actionInner.innerHTML = `
+    <div class="action-title">${escapeHTML(task.title)}</div>
+    <div class="action-subline">${escapeHTML(task.subline)}</div>
+    <div class="action-rule"></div>
     <div class="action-label">Why this matters</div>
-    <div class="action-text">${task.why}</div>
-    <div class="action-divider"></div>
+    <div class="action-body">${escapeHTML(task.why)}</div>
+    <div class="action-rule"></div>
     <div class="action-label">Next step</div>
-    <div class="action-text">${task.nextStep}</div>
-    <div class="action-buttons">
+    <div class="action-body">${escapeHTML(task.nextStep)}</div>
+    <div class="action-btns">
       <button class="btn btn-complete">Mark Complete</button>
       <button class="btn btn-defer">Defer</button>
       <button class="btn btn-back">← Back</button>
     </div>
   `;
+
+  actionInner.querySelector('.btn-complete')
+    .addEventListener('click', e => { e.stopPropagation(); completeCurrentAction(); });
+  actionInner.querySelector('.btn-defer')
+    .addEventListener('click', e => { e.stopPropagation(); deferCurrentAction(); });
+  actionInner.querySelector('.btn-back')
+    .addEventListener('click', e => { e.stopPropagation(); backFromAction(); });
+
+  actionSurface.appendChild(actionInner);
+
+  // Assemble sphere layers
+  sphere.appendChild(content);
+  sphere.appendChild(actions);
+  sphere.appendChild(actionSurface);
+
+  wrap.appendChild(sphere);
+
+  // Click on wrap → handleClick
+  wrap.addEventListener('click', () => handleClick(task.id));
+
+  return wrap;
+}
+
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ============================================================
+// LAYOUT CALCULATION
+// ============================================================
+
+function calculateBubbleLayout() {
+  const u   = Math.min(window.innerWidth, window.innerHeight) / 100; // 1 vmin in px
+  const map = new Map();
+
+  // Separate oneAction from the rest
+  const nonPrimary = state.tasks.filter(t => t.id !== state.oneActionId);
+
+  state.tasks.forEach(task => {
+    const isOneAction  = task.id === state.oneActionId;
+    const isInspected  = task.id === state.inspectedId;
+    const isActionMode = state.current === STATES.ACTION_MODE;
+    const isInspecting = state.current === STATES.INSPECTING || state.current === STATES.PROMOTING;
+
+    let role, diam, x, y;
+
+    if (isActionMode && isInspected && isOneAction) {
+      // Action mode: OneAction expands to large surface
+      role  = 'action';
+      diam  = CONFIG.size.action * u;
+      x     = 0;
+      y     = 0;
+    } else if (isOneAction) {
+      // Primary: always centred
+      role = 'primary';
+      diam = CONFIG.size.primary * u;
+      x    = 0;
+      y    = 0;
+    } else {
+      // Non-primary tasks: slot index in the nonPrimary array
+      const slotIndex = nonPrimary.indexOf(task);
+      const isThisInspected = isInspected && (state.current === STATES.INSPECTING);
+
+      if (isThisInspected) {
+        role = 'inspecting';
+        diam = CONFIG.size.inspecting * u;
+        // Inspecting bubble stays in its cluster slot (not pulled to centre)
+        const offset = getClusterOffset(slotIndex, u);
+        x = offset.x;
+        y = offset.y;
+      } else if (slotIndex < CONFIG.cluster.secondary.length) {
+        role = 'secondary';
+        diam = CONFIG.size.secondary * u;
+        const offset = getClusterOffset(slotIndex, u);
+        x = offset.x;
+        y = offset.y;
+      } else {
+        role = 'tertiary';
+        diam = CONFIG.size.tertiary * u;
+        const tertiaryIndex = slotIndex - CONFIG.cluster.secondary.length;
+        const offset = getTertiaryOffset(tertiaryIndex, u);
+        x = offset.x;
+        y = offset.y;
+      }
+    }
+
+    map.set(task.id, { role, diam, x, y });
+  });
+
+  return map;
+}
+
+function getClusterOffset(slotIndex, u) {
+  const slots = CONFIG.cluster.secondary;
+  const slot  = slots[slotIndex % slots.length];
+  return { x: slot.dx * u, y: slot.dy * u };
+}
+
+function getTertiaryOffset(tertiaryIndex, u) {
+  const slots = CONFIG.cluster.tertiary;
+  const slot  = slots[tertiaryIndex % slots.length];
+  return { x: slot.dx * u, y: slot.dy * u };
 }
 
 // ============================================================
 // POSITIONING
 // ============================================================
 
-function positionAllBubbles(transitionOverride) {
-  const u    = Math.min(window.innerWidth, window.innerHeight);
-  const tasks = state.tasks;
-
-  let secIdx = 0;
-  let terIdx = 0;
-
-  tasks.forEach(task => {
-    const el = document.getElementById(`bubble-${task.id}`);
-    if (!el) return;
-
-    const isOneAction   = task.id === state.oneActionId;
-    const isInspecting  = task.id === state.inspectedId && state.current === STATES.INSPECTING;
-    const isAction      = task.id === state.inspectedId && state.current === STATES.ACTION_MODE;
-
-    // Determine role
-    let role, size, x, y;
-
-    if (isAction) {
-      role = 'action';
-      size = CONFIG.size.action * u;
-      x = 0; y = 0;
-    } else if (isInspecting) {
-      role = 'inspecting';
-      size = CONFIG.size.inspecting * u;
-      // Shift toward centre slightly
-      const slot = getSlotPosition(task.id, isOneAction, secIdx, terIdx, u);
-      x = slot.x * 0.35;
-      y = slot.y * 0.35;
-    } else if (isOneAction) {
-      role = 'primary';
-      size = CONFIG.size.primary * u;
-      x = 0; y = 0;
-    } else if (task.priority <= 4) {
-      role = 'secondary';
-      size = CONFIG.size.secondary * u;
-      const angle = SECONDARY_ANGLES_DEG[secIdx % SECONDARY_ANGLES_DEG.length] * (Math.PI / 180);
-      const dist  = CONFIG.orbit.secondary * u;
-      x = Math.cos(angle) * dist;
-      y = Math.sin(angle) * dist;
-      secIdx++;
-    } else {
-      role = 'tertiary';
-      size = CONFIG.size.tertiary * u;
-      const angle = TERTIARY_ANGLES_DEG[terIdx % TERTIARY_ANGLES_DEG.length] * (Math.PI / 180);
-      const dist  = CONFIG.orbit.tertiary * u;
-      x = Math.cos(angle) * dist;
-      y = Math.sin(angle) * dist;
-      terIdx++;
-    }
-
-    applyBubbleState(el, { role, size, x, y, transitionOverride });
+function positionAllBubbles(transitionMs) {
+  const layout = calculateBubbleLayout();
+  layout.forEach((geometry, taskId) => {
+    const wrap = document.getElementById(`bubble-${taskId}`);
+    if (wrap) applyBubblePhysics(wrap, geometry, transitionMs);
   });
 }
 
-function getSlotPosition(taskId, isOneAction, secIdx, terIdx, u) {
-  // Returns raw orbital position before inspect shift
-  if (isOneAction) return { x: 0, y: 0 };
-  const idx = secIdx;
-  const angle = SECONDARY_ANGLES_DEG[idx % SECONDARY_ANGLES_DEG.length] * (Math.PI / 180);
-  const dist  = CONFIG.orbit.secondary * u;
-  return { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist };
-}
+function applyBubblePhysics(wrap, { role, diam, x, y }, transitionMs) {
+  const taskId   = wrap.dataset.taskId;
+  const dur      = transitionMs !== undefined ? transitionMs : durationForRole(role);
+  const easing   = CONFIG.easing.spring;
+  const smooth   = CONFIG.easing.smooth;
 
-function applyBubbleState(el, { role, size, x, y, transitionOverride }) {
-  // Set transition timing
-  const dur = transitionOverride ?? transitionForRole(role);
-  el.style.transition = [
-    `transform ${dur}ms ${CONFIG.easing.spring}`,
-    `width ${dur}ms ${CONFIG.easing.spring}`,
-    `height ${dur}ms ${CONFIG.easing.spring}`,
-    `opacity ${dur}ms ${CONFIG.easing.smooth}`,
-    `box-shadow ${dur}ms ${CONFIG.easing.smooth}`,
-    `border-radius ${dur}ms ${CONFIG.easing.smooth}`,
+  // Set transition on wrap only (position layer)
+  wrap.style.transition = [
+    `transform ${dur}ms ${easing}`,
+    `width ${dur}ms ${easing}`,
+    `height ${dur}ms ${easing}`,
+    `opacity ${dur}ms ${smooth}`,
+    `border-radius ${dur}ms ${smooth}`,
   ].join(', ');
 
-  // Dimensions (position centres the bubble on x,y relative to field centre)
-  el.style.width  = `${size}px`;
-  el.style.height = `${size}px`;
-  el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+  // Apply dimensions and position
+  wrap.style.width     = `${diam}px`;
+  wrap.style.height    = `${diam}px`;
+  wrap.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 
-  // Softened state: dim non-inspected bubbles during INSPECTING
-  const isSoftened = state.current === STATES.INSPECTING
-    && el.dataset.taskId !== state.inspectedId;
+  // Compute softened state
+  const isInspectingOrAction = state.current === STATES.INSPECTING || state.current === STATES.ACTION_MODE;
+  const isSoftened = isInspectingOrAction
+    && taskId !== state.inspectedId
+    && taskId !== state.oneActionId;
 
-  // Role classes
-  el.classList.remove('role-primary','role-secondary','role-tertiary','role-inspecting','role-action','softened','state-rest');
-  el.classList.add(`role-${role}`);
-  if (state.current === STATES.REST && role === 'primary') el.classList.add('state-rest');
-  if (isSoftened) el.classList.add('softened');
+  // Compute state-inspecting: OneAction is the inspected bubble in INSPECTING state
+  const isStateInspecting = state.current === STATES.INSPECTING
+    && state.inspectedId === state.oneActionId
+    && taskId === state.oneActionId;
+
+  // Rebuild class list cleanly
+  const classes = ['bubble-wrap', `role-${role}`];
+  if (state.current === STATES.REST && role === 'primary')  classes.push('state-rest');
+  if (isStateInspecting)                                    classes.push('state-inspecting');
+  if (isSoftened)                                           classes.push('softened');
+
+  // Preserve completing class if present (managed by completeCurrentAction)
+  if (wrap.classList.contains('completing')) classes.push('completing');
+
+  wrap.className = classes.join(' ');
+
+  // Show/hide buttons based on role and state
+  const btnPromote = wrap.querySelector('.btn-promote');
+  const btnOpen    = wrap.querySelector('.btn-open');
+  if (btnPromote && btnOpen) {
+    if (taskId === state.oneActionId) {
+      // OneAction inspect: show Open/Do, hide Make this OneAction
+      btnPromote.style.display = 'none';
+      btnOpen.style.display    = '';
+    } else {
+      // Secondary inspect: show Make this OneAction, hide Open/Do
+      btnPromote.style.display = '';
+      btnOpen.style.display    = 'none';
+    }
+  }
 }
 
-function transitionForRole(role) {
-  if (CONFIG.reducedMotion) return 80;
-  switch (role) {
-    case 'action':     return CONFIG.timing.inspect;
-    case 'inspecting': return CONFIG.timing.inspect;
-    case 'primary':    return CONFIG.timing.promote;
-    default:           return CONFIG.timing.rebalance;
+// ============================================================
+// CLICK HANDLING
+// ============================================================
+
+function handleClick(taskId) {
+  // Guard: ignore clicks during transitions
+  if (state.current === STATES.PROMOTING)  return;
+  if (state.current === STATES.COMPLETING) return;
+  if (state.current === STATES.ACTION_MODE) return;
+
+  // Clicking already-inspected bubble collapses it
+  if (state.current === STATES.INSPECTING && state.inspectedId === taskId) {
+    collapseInspect();
+    return;
   }
+
+  // All bubbles (including OneAction) go to INSPECTING on first click.
+  // Open/Do must be clicked deliberately to enter ACTION_MODE.
+  inspectBubble(taskId);
 }
 
 // ============================================================
 // STATE TRANSITIONS
 // ============================================================
 
-function handleBubbleClick(taskId) {
-  if (state.current === STATES.PROMOTING || state.current === STATES.COMPLETING) return;
-  if (state.current === STATES.ACTION_MODE) return;
-
-  // Clicking an already-inspected bubble collapses it
-  if (state.current === STATES.INSPECTING && state.inspectedId === taskId) {
-    collapseInspect();
-    return;
-  }
-
-  // All bubbles — including the current OneAction — go to INSPECTING first.
-  // The user must deliberately click Open / Do to enter ACTION_MODE.
-  inspectBubble(taskId);
-}
-
-// Transition: REST → INSPECTING
+// REST → INSPECTING
 function inspectBubble(taskId) {
   state.current     = STATES.INSPECTING;
   state.inspectedId = taskId;
   hint.classList.add('hidden');
-
-  // Hide "Make this OneAction" for the bubble that is already the OneAction
-  const el = document.getElementById(`bubble-${taskId}`);
-  if (el) {
-    const btnPromote = el.querySelector('.btn-promote');
-    if (btnPromote) btnPromote.style.display = taskId === state.oneActionId ? 'none' : '';
-  }
-
   positionAllBubbles();
+  updateDebug();
 }
 
-// Transition: INSPECTING → PROMOTING → REST
+// INSPECTING → PROMOTING → REST
 function promoteBubble(taskId) {
   if (state.current !== STATES.INSPECTING) return;
 
-  state.current = STATES.PROMOTING;
-
   const prevOneActionId = state.oneActionId;
+  state.current         = STATES.PROMOTING;
   state.oneActionId     = taskId;
   state.inspectedId     = null;
 
-  // Re-sort: new OneAction gets priority 0, previous OneAction takes demoted slot
-  const promoted  = state.tasks.find(t => t.id === taskId);
-  const demoted   = state.tasks.find(t => t.id === prevOneActionId);
-  const rest      = state.tasks.filter(t => t.id !== taskId && t.id !== prevOneActionId);
-
-  // Rebuild priority order: promoted first, demoted second, others in order
-  state.tasks = [promoted, demoted, ...rest].filter(Boolean);
+  // Reorder: promoted first, old OneAction second, rest in order
+  const promoted = state.tasks.find(t => t.id === taskId);
+  const demoted  = state.tasks.find(t => t.id === prevOneActionId);
+  const rest     = state.tasks.filter(t => t.id !== taskId && t.id !== prevOneActionId);
+  state.tasks    = [promoted, demoted, ...rest].filter(Boolean);
 
   positionAllBubbles(CONFIG.timing.promote);
+  updateDebug();
 
+  // Trigger soft-body squeeze at ~52% through the promotion animation
+  if (!CONFIG.reducedMotion) {
+    setTimeout(() => {
+      triggerSqueeze(taskId, prevOneActionId);
+    }, CONFIG.timing.promote * 0.52);
+  }
+
+  // Return to REST once promotion is complete
   setTimeout(() => {
     state.current = STATES.REST;
     positionAllBubbles();
     hint.classList.remove('hidden');
-  }, CONFIG.timing.promote + 100);
+    updateDebug();
+  }, CONFIG.timing.promote + 120);
 }
 
-// Transition: INSPECTING / REST → ACTION_MODE
-function openActionMode(taskId) {
-  if (state.current === STATES.PROMOTING || state.current === STATES.COMPLETING) return;
+// Soft-body contact effect: squeeze promoted and yield demoted spheres
+function triggerSqueeze(promotedId, demotedId) {
+  const promotedSphere = document.querySelector(`#bubble-${promotedId} .bubble-sphere`);
+  const demotedSphere  = document.querySelector(`#bubble-${demotedId} .bubble-sphere`);
 
-  // If the task isn't already the OneAction, promote silently first
-  if (taskId !== state.oneActionId) {
-    state.oneActionId = taskId;
-    const promoted = state.tasks.find(t => t.id === taskId);
-    const rest     = state.tasks.filter(t => t.id !== taskId);
-    state.tasks    = [promoted, ...rest].filter(Boolean);
+  if (promotedSphere) {
+    promotedSphere.classList.remove('squeeze-inward', 'squeeze-yield');
+    // Force reflow so animation restarts cleanly
+    void promotedSphere.offsetWidth;
+    promotedSphere.classList.add('squeeze-inward');
   }
 
+  if (demotedSphere) {
+    demotedSphere.classList.remove('squeeze-inward', 'squeeze-yield');
+    void demotedSphere.offsetWidth;
+    demotedSphere.classList.add('squeeze-yield');
+  }
+
+  // Remove squeeze classes after animation completes
+  const cleanupDelay = CONFIG.timing.squeeze + 60;
+  setTimeout(() => {
+    promotedSphere?.classList.remove('squeeze-inward');
+    demotedSphere?.classList.remove('squeeze-yield');
+  }, cleanupDelay);
+}
+
+// INSPECTING → ACTION_MODE (only for the current OneAction)
+function openActionMode(taskId) {
+  if (taskId !== state.oneActionId) return; // Guard: only OneAction can open action mode
   state.current     = STATES.ACTION_MODE;
   state.inspectedId = taskId;
   hint.classList.add('hidden');
   positionAllBubbles(CONFIG.timing.inspect);
+  updateDebug();
 }
 
-// Transition: ACTION_MODE → REST (back without completing)
+// ACTION_MODE → REST (back without completing)
 function backFromAction() {
   state.current     = STATES.REST;
   state.inspectedId = null;
   hint.classList.remove('hidden');
   positionAllBubbles(CONFIG.timing.inspect);
+  updateDebug();
 }
 
-// Transition: INSPECTING → REST
+// INSPECTING → REST
 function collapseInspect() {
   state.current     = STATES.REST;
   state.inspectedId = null;
   hint.classList.remove('hidden');
   positionAllBubbles(CONFIG.timing.inspect);
+  updateDebug();
 }
 
-// Transition: ACTION_MODE → COMPLETING → REST
+// ACTION_MODE → COMPLETING → REST
 function completeCurrentAction() {
   if (state.current !== STATES.ACTION_MODE) return;
 
   state.current = STATES.COMPLETING;
-
   const completedId = state.oneActionId;
-  const completedEl = document.getElementById(`bubble-${completedId}`);
+  const wrap        = document.getElementById(`bubble-${completedId}`);
 
-  // Mark task done
-  const completedTask = state.tasks.find(t => t.id === completedId);
-  if (completedTask) completedTask.status = 'done';
-
-  // Animate outgoing bubble
-  if (completedEl) {
-    completedEl.style.transition = `transform ${CONFIG.timing.complete}ms ${CONFIG.easing.smooth}, opacity ${CONFIG.timing.complete}ms ${CONFIG.easing.smooth}`;
-    completedEl.classList.add('completing');
-    completedEl.style.transform += ' scale(0.4)';
+  // Animate exit: add completing class, then scale down
+  if (wrap) {
+    wrap.classList.add('completing');
+    wrap.style.transform = wrap.style.transform + ' scale(0.35)';
   }
 
   setTimeout(() => {
-    // Remove completed task
+    // Remove completed task from list
     state.tasks       = state.tasks.filter(t => t.id !== completedId);
     state.inspectedId = null;
-    completedEl?.remove();
-
-    // Next OneAction is the new first task
     state.oneActionId = state.tasks[0]?.id ?? null;
     state.current     = STATES.REST;
+    wrap?.remove();
 
     renderBubbleField();
     hint.classList.remove('hidden');
+    updateDebug();
   }, CONFIG.timing.complete + 80);
 }
 
-// Transition: defer — move OneAction to back of queue
+// ACTION_MODE → DEFERRED → REST
 function deferCurrentAction() {
   if (state.current !== STATES.ACTION_MODE) return;
 
@@ -485,29 +599,87 @@ function deferCurrentAction() {
   const deferredTask = state.tasks.find(t => t.id === deferredId);
   const rest         = state.tasks.filter(t => t.id !== deferredId);
 
-  // Move to end of tasks
+  // Move deferred task to end of queue
   state.tasks       = [...rest, deferredTask].filter(Boolean);
   state.oneActionId = state.tasks[0]?.id ?? null;
   state.inspectedId = null;
-  state.current     = STATES.REST;
+  state.current     = STATES.DEFERRED;
 
-  positionAllBubbles(CONFIG.timing.promote);
-  hint.classList.remove('hidden');
+  setTimeout(() => {
+    state.current = STATES.REST;
+    positionAllBubbles(CONFIG.timing.defer);
+    hint.classList.remove('hidden');
+    updateDebug();
+  }, 50);
 }
 
-// Recalculates and animates all bubble positions (called after data changes)
+// Recalculate and animate all bubble positions
 function rebalanceBubbles() {
   positionAllBubbles(CONFIG.timing.rebalance);
 }
 
 // ============================================================
-// RESIZE
+// KEYBOARD
 // ============================================================
 
-let resizeTimer;
+function bindKeyboard() {
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (state.current === STATES.ACTION_MODE) {
+        backFromAction();
+      } else if (state.current === STATES.INSPECTING) {
+        collapseInspect();
+      }
+    }
+  });
+}
+
+// ============================================================
+// DEBUG
+// ============================================================
+
+function updateDebug() {
+  const elState     = document.getElementById('dbg-state');
+  const elOneAction = document.getElementById('dbg-oneaction');
+  const elInspected = document.getElementById('dbg-inspected');
+  if (elState)     elState.textContent     = `STATE: ${state.current}`;
+  if (elOneAction) elOneAction.textContent = `OneAction: ${state.oneActionId ?? '—'}`;
+  if (elInspected) elInspected.textContent = `Inspecting: ${state.inspectedId ?? '—'}`;
+}
+
+// ============================================================
+// RESIZE (debounced)
+// ============================================================
+
+let _resizeTimer;
 window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => positionAllBubbles(0), 120);
+  clearTimeout(_resizeTimer);
+  _resizeTimer = setTimeout(() => positionAllBubbles(0), 120);
+});
+
+// ============================================================
+// FIELD BACKGROUND CLICK — collapse inspect
+// ============================================================
+
+field.addEventListener('click', e => {
+  if (e.target === field && state.current === STATES.INSPECTING) {
+    collapseInspect();
+  }
+});
+
+// ============================================================
+// DEBUG PANEL WIRING
+// ============================================================
+
+document.getElementById('debug-toggle').addEventListener('click', () => {
+  const strip = document.getElementById('debug-strip');
+  strip.hidden = !strip.hidden;
+});
+
+document.getElementById('dbg-motion-toggle').addEventListener('click', () => {
+  CONFIG._reducedMotion = !CONFIG._reducedMotion;
+  document.getElementById('dbg-motion-toggle').textContent =
+    `⚡ Motion: ${CONFIG._reducedMotion ? 'OFF' : 'ON'}`;
 });
 
 // ============================================================
