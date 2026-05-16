@@ -42,9 +42,27 @@
 .final .route-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;padding:22px!important;border:1px solid rgba(255,255,255,.58)!important;border-radius:32px!important;background:radial-gradient(circle at 18% 82%, rgba(242,108,13,.08), transparent 24%),radial-gradient(circle at 86% 86%, rgba(242,108,13,.10), transparent 24%),linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.18))!important;box-shadow:0 22px 55px rgba(64,42,22,.11), inset 0 1px 0 rgba(255,255,255,.58)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important;}
 .final .route{min-height:240px!important;border-radius:28px!important;background:linear-gradient(180deg,rgba(255,255,255,.56),rgba(255,255,255,.34))!important;border:1px solid rgba(255,255,255,.62)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.48), 0 10px 24px rgba(64,42,22,.08)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important;justify-content:center!important;}
 
+/* Partner Hub route matrix test */
+.partner-matrix-section{padding-bottom:clamp(78px,9vw,126px)!important;}
+.partner-matrix-card{padding:0!important;background:#0b1119!important;border-color:rgba(255,255,255,.10)!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;}
+.partner-matrix-card>.kicker,.partner-matrix-card>h2,.partner-matrix-card>p{margin-left:clamp(28px,4vw,46px);margin-right:clamp(28px,4vw,46px);}
+.partner-matrix-card>.kicker{margin-top:clamp(28px,4vw,46px);}
+.partner-matrix-card>p{max-width:760px;margin-bottom:clamp(28px,4vw,46px);}
+.partner-matrix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid rgba(255,255,255,.08);background:#0b1119;}
+.partner-tile{display:flex;flex-direction:column;justify-content:center;min-height:290px;padding:clamp(28px,4vw,48px);text-decoration:none;border-right:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.015);transition:background .22s ease, transform .22s ease;}
+.partner-tile:nth-child(2n){border-right:0;}
+.partner-tile:hover{background:rgba(232,102,22,.07);transform:translateY(-1px);}
+.partner-tile span{color:var(--orange);font-size:12px;text-transform:uppercase;letter-spacing:.24em;font-weight:1000;margin-bottom:54px;}
+.partner-tile h3{font-size:clamp(32px,4.2vw,54px);line-height:.95;letter-spacing:-.07em;margin:0 0 22px;color:#fff;font-weight:1000;}
+.partner-tile p{font-size:clamp(18px,2vw,24px);line-height:1.42;margin:0;color:rgba(255,255,255,.66);font-weight:760;letter-spacing:-.02em;}
+.partner-matrix-card::after,.partner-tile::after{display:none!important;}
+
 @media(max-width:900px){
   .hero-image{position:absolute!important;width:100%!important;height:100%!important;}
   .final .route-list{grid-template-columns:1fr!important;padding:18px!important;}
   .final .route{min-height:150px!important;}
   .brand-logo{width:30px!important;height:30px!important;}
+  .partner-matrix{grid-template-columns:1fr;}
+  .partner-tile,.partner-tile:nth-child(2n){border-right:0;min-height:220px;}
+  .partner-tile span{margin-bottom:28px;}
 }
