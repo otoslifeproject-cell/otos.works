@@ -1,155 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Visuals — OTOS Continuity™</title>
-  <link rel="stylesheet" href="css/otos.css">
-  <style>
-    .vis-tabs { display:flex; gap:0; border:1px solid var(--line-paper); border-radius:var(--radius-sm); overflow:hidden; margin:24px 0 28px; }
-    .vis-tab { flex:1; padding:11px 14px; font-size:12px; font-weight:800; cursor:pointer; color:var(--paper-muted); border:none; border-right:1px solid var(--line-paper); background:transparent; font-family:var(--font); text-align:center; transition:all .15s; }
-    .vis-tab:last-child { border-right:none; }
-    .vis-tab.active { background:rgba(242,108,13,.08); color:var(--orange); }
-    .vis-tab:hover:not(.active) { background:rgba(64,42,22,.04); color:var(--paper-ink); }
-    .vis-panel { display:none; }
-    .vis-panel.active { display:block; }
-    .diagram-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
-    .diagram-card { border-radius:var(--radius); overflow:hidden; border:1px solid var(--line-paper); box-shadow:var(--shadow-sm); cursor:zoom-in; transition:transform .18s, box-shadow .18s; }
-    .diagram-card:hover { transform:translateY(-2px); box-shadow:var(--shadow); }
-    .diagram-card img { width:100%; display:block; }
-    .diagram-card figcaption { padding:12px 16px; font-size:12px; font-weight:700; color:var(--paper-muted); text-transform:uppercase; letter-spacing:.05em; background:var(--paper-3); border-top:1px solid var(--line-paper); }
-    /* Lightbox */
-    .lightbox { position:fixed; inset:0; z-index:2000; background:rgba(8,10,15,.9); display:none; place-items:center; padding:24px; cursor:zoom-out; }
-    .lightbox.open { display:grid; }
-    .lightbox img { max-width:min(1200px,100%); max-height:90vh; border-radius:var(--radius); box-shadow:0 40px 100px rgba(0,0,0,.5); object-fit:contain; }
-    @media(max-width:700px) { .diagram-grid{grid-template-columns:1fr} .vis-tabs{flex-wrap:wrap} }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OTOS Continuity™ — How it works</title><meta name="description" content="OTOS Continuity private partner briefing for a pre-pilot demonstrator.">
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="css/otos.css?v=real-static-hero-1">
 </head>
-<body>
-<header class="site-header">
-  <div class="nav-shell">
-    <a class="brand" href="index.html"><span class="brand-icon"></span>OTOS Continuity™</a>
-    <nav class="nav-links">
-      <a href="partners.html">Partners</a>
-      <a href="founder-story.html">The Story</a>
-      <a href="numbers.html">Numbers</a>
-      <a href="evidence-sources.html">Evidence</a>
-      <a href="how-it-works-visuals.html" class="active">Visuals</a>
-      <a class="cta" href="mailto:info@otos.life">Get involved</a>
-    </nav>
-  </div>
-</header>
-<main>
-
-  <section class="hero">
-    <div class="container">
-      <span class="kicker"><span class="kicker-icon"></span>Diagrams, mockups &amp; infographics</span>
-      <h1>What it looks like.<br><span class="accent">In practice.</span></h1>
-      <p class="lede">The OTOS dashboard, service diagrams, infrastructure blueprint, continuity loop and NIA infographics. All images expandable. This is the only page where large images are appropriate.</p>
-    </div>
-  </section>
-
-  <section class="paper-section">
-    <div class="container">
-
-      <!-- Dashboard first -->
-      <div class="section-head">
-        <span class="kicker"><span class="kicker-icon"></span>The pilot overview dashboard</span>
-        <h2>What a commissioner sees at Week 7.</h2>
-        <p>Real pilot data structure. Anonymous threads. 89% continuity held. 94% handoff receipt rate. No identifying details.</p>
-      </div>
-      <div class="diagram-card" style="max-width:100%;margin-bottom:40px" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="images/OTOS_continuity_pilot_dashboard.png" alt="OTOS Continuity pilot overview dashboard — Cambridge Pre-Pilot Week 7">
-        <figcaption>OTOS Continuity Pilot Dashboard — Week 7 of 12 · Click to expand</figcaption>
-      </div>
-
-      <!-- Tabs for remaining diagrams -->
-      <div class="vis-tabs">
-        <button class="vis-tab active" onclick="showVis('technical')">Technical diagrams</button>
-        <button class="vis-tab" onclick="showVis('nia')">NIA infographics</button>
-        <button class="vis-tab" onclick="showVis('pathway')">Partner pathway</button>
-      </div>
-
-      <div id="vis-technical" class="vis-panel active">
-        <div class="diagram-grid">
-          <figure class="diagram-card" onclick="openLightbox(this.querySelector('img').src)">
-            <img src="images/OTOS_Service_Blueprint.png" alt="OTOS Service Blueprint">
-            <figcaption>OTOS Service Blueprint — system-level view · Click to expand</figcaption>
-          </figure>
-          <figure class="diagram-card" onclick="openLightbox(this.querySelector('img').src)">
-            <img src="images/Continuity_Loop.png" alt="The Continuity Loop">
-            <figcaption>The Continuity Loop — identify, connect, coordinate, sustain · Click to expand</figcaption>
-          </figure>
-          <figure class="diagram-card" onclick="openLightbox(this.querySelector('img').src)">
-            <img src="images/Continuity_Roadmap.png" alt="OTOS Continuity Roadmap">
-            <figcaption>OTOS Continuity Roadmap — pre-pilot to full pathway · Click to expand</figcaption>
-          </figure>
-        </div>
-      </div>
-
-      <div id="vis-nia" class="vis-panel">
-        <div class="diagram-grid">
-          <figure class="diagram-card" onclick="openLightbox(this.querySelector('img').src)">
-            <img src="images/NIA_ADHD_Final.png" alt="Neurologically Informed Addiction — ADHD">
-            <figcaption>NIA: ADHD and the addiction pathway · Click to expand</figcaption>
-          </figure>
-          <figure class="diagram-card" onclick="openLightbox(this.querySelector('img').src)">
-            <img src="images/NIA_Cost_Final.png" alt="Neurologically Informed Addiction — Cost">
-            <figcaption>NIA: The cost of untreated ADHD in addiction settings · Click to expand</figcaption>
-          </figure>
-          <figure class="diagram-card" onclick="openLightbox(this.querySelector('img').src)">
-            <img src="images/RippleEffect.png" alt="The Ripple Effect">
-            <figcaption>The Ripple Effect — one person, one year, cross-budget costs · Click to expand</figcaption>
-          </figure>
-        </div>
-      </div>
-
-      <div id="vis-pathway" class="vis-panel">
-        <div class="diagram-card" style="max-width:820px" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="images/partner-pathway.png" alt="OTOS partner pathway — all services connected">
-          <figcaption>OTOS Partner Pathway — all Cambridge &amp; Peterborough services · Click to expand</figcaption>
-        </div>
-        <p style="font-size:13px;color:var(--paper-muted);margin-top:12px;font-style:italic">Partners shown are invited and/or in discussion. Inclusion does not imply confirmed participation or endorsement.</p>
-      </div>
-
-      <div class="cta-row" style="margin-top:40px">
-        <a class="btn-primary" href="partners.html">Partner routes</a>
-        <a class="btn outline" href="how-it-works-visuals.html">Reload visuals</a>
-        <a class="btn outline" href="evidence-sources.html">Evidence register</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-<footer class="page-footer">
-  <div class="page-footer-inner">
-    <img src="images/otos-logo.png" alt="OTOS Continuity">
-    <span class="page-footer-meta">OTOS Digital Ltd &middot; Co. No. 17084455 &middot; Founder: Dean Butler &middot; Clinical governance: discussed at scoping stage</span>
-    <a href="mailto:info@otos.life">info@otos.life</a>
-  </div>
-</footer>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src="" alt="Expanded diagram">
-</div>
-
-<script>
-function showVis(id) {
-  document.querySelectorAll('.vis-tab').forEach((t,i) => t.classList.toggle('active', ['technical','nia','pathway'][i] === id));
-  document.querySelectorAll('.vis-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('vis-' + id).classList.add('active');
-}
-function openLightbox(src) {
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-</script>
-</body>
-</html>
+<body><a class="skip" href="#section-2">Skip to content</a><header class="site-nav"><div class="nav-inner"><a class="brand" href="index.html"><img class="brand-logo" src="images/otos-brain-icon.png" alt="OTOS logo">OTOS Continuity™</a><nav class="nav-links"><a class="" href="index.html">Start</a><a class="" href="partners.html">Partners</a><a class="" href="full-plan.html">Demo</a><a class="" href="evidence.html">Evidence</a><a class="" href="numbers.html">Numbers</a><a class="" href="founder-story.html">Story</a><a class="nav-cta" href="mailto:info@otos.life?subject=OTOS%20Continuity%20conversation">30-minute call</a></nav></div></header>
+<section class="hero" id="section-1"><div class="hero-bg" style="--hero:url(\'images/how-it-works-visuals-hero1.png\')"><img class="hero-image" src="images/how-it-works-visuals-hero1.png" alt="" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">How it works</p><h1>One thread between services. Not another service.</h1><p class="lede">OTOS Continuity does not replace clinical or partner systems. It holds a light continuity thread around agreed touchpoints so the person does not disappear between them.</p><div class="actions"><a class="btn" href="full-plan.html">View plan</a><a class="btn secondary" href="partners.html">Partner routes</a></div></div></section>
+<main class="page-shell">
+<section class="section alt" id="section-2"><div class="inner"><div class="num">02</div><div><div class="two"><div class="copy-card"><p class="kicker">Pre-pilot version</p><h2>Limited functionality for proof.</h2><p>The demo build needs enough capability to handle consent, tokens, partner touchpoints, receipts, drift signals and a learning report.</p></div><div class="copy-card"><p class="kicker">Full pilot version</p><h2>A wider continuity layer.</h2><p>The future pilot can become more sophisticated, but only after the pre-pilot proves the pattern and partners agree what is safe and useful.</p></div></div></div></div></section>
+<section class="section" id="section-3"><div class="inner"><div class="num">03</div><div><div class="media right"><div class="copy-card"><p class="kicker">The loop</p><h2>Spot, log, receipt, review.</h2><p>The core action is simple: a partner sees an agreed signal, logs it, receives a receipt, and the right people can review the thread.</p><ul class="list"><li>No hidden clinical decision.</li><li>No record merger.</li><li>No vague handoff.</li></ul></div><aside class="image-card"><img src="images/how-it-works-visuals-image1.png" alt="how-it-works-visuals image 1"><div class="caption">Image slot: images/how-it-works-visuals-image1.png</div></aside></div></div></div></section>
+<section class="section dark" id="section-4"><div class="inner"><div class="num">04</div><div><div class="copy-card"><p class="kicker">Roles stay clear</p><h2>Continuity does not mean ownership transfer.</h2><div class="cards"><div class="mini-card"><h3>Partner</h3><p>logs or confirms agreed touchpoint</p></div><div class="mini-card"><h3>OTOS layer</h3><p>holds the signal and receipt</p></div><div class="mini-card"><h3>Human reviewer</h3><p>checks drift or next-step issue</p></div><div class="mini-card"><h3>Clinical team</h3><p>keeps clinical decisions where they belong</p></div></div></div></div></div></section>
+<section class="section alt" id="section-5"><div class="inner"><div class="num">05</div><div><div class="media left"><aside class="image-card"><img src="images/how-it-works-visuals-image2.png" alt="how-it-works-visuals image 2"><div class="caption">Image slot: images/how-it-works-visuals-image2.png</div></aside><div class="copy-card"><p class="kicker">Why visuals matter</p><h2>Partners need to see how little is being asked.</h2><p>The demonstrator has to look simple because it is designed to be simple: one signal in the right place, not a new service burden.</p></div></div></div></div></section>
+<section class="section final" id="section-6"><div class="inner"><div class="num">06</div><div><div class="media"><div class="copy-card"><p class="kicker">Open linked pages</p><h2>See the route and plan.</h2><p>The visuals page should support partner understanding, not replace the plan.</p></div><div class="route-list"><a class="route" href="full-plan.html">Plan<span>Open page</span></a><a class="route" href="partners-addenbrookes.html">Addenbrooke’s route<span>Open page</span></a><a class="route" href="partners.html">Partner hub<span>Open page</span></a></div></div></div></div></section>
+</main><footer class="footer"><div class="footer-inner"><span>OTOS Continuity™ · Private partner briefing</span><span><a href="mailto:info@otos.life">info@otos.life</a></span><span>Pre-pilot demonstrator frame · not a live clinical service</span></div></footer></body></html>
